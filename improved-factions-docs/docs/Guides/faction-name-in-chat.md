@@ -77,7 +77,7 @@ You can download it here:
 
 ```yaml
 # LPC/config.yml
-chat-format: "%player% [&a%faction_name%&r] >> %message%"
+chat-format: "[%faction_name%] {name} >> {message}"
 ```
 
 > 📝 **Tip:** If you're using LPC, you don't need ChatInjector or ProtocolLib—it's a simpler solution if you're not tied to EssentialsX's formatting.
