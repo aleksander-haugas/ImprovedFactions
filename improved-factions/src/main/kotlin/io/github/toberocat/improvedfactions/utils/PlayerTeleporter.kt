@@ -1,9 +1,9 @@
 package io.github.toberocat.improvedfactions.utils
 
 import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin
+import io.github.toberocat.improvedfactions.config.EventDisplayLocation
 import io.github.toberocat.improvedfactions.modules.base.BaseModule
 import io.github.toberocat.improvedfactions.translation.LocalizationKey
-import io.github.toberocat.improvedfactions.translation.getLocalized
 import io.github.toberocat.improvedfactions.translation.sendLocalized
 import io.github.toberocat.improvedfactions.utils.particles.TeleportParticles
 import net.kyori.adventure.title.Title
@@ -12,7 +12,6 @@ import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import java.time.Duration
 import kotlin.math.ceil
-import kotlin.math.floor
 
 class PlayerTeleporter(
     private val plugin: ImprovedFactionsPlugin,
@@ -21,6 +20,7 @@ class PlayerTeleporter(
     private val subtitleKey: LocalizationKey,
     private val onTeleport: () -> Unit,
     private val standStillMs: Long = 5000,
+    private val playAnimation: Boolean = true,
 ) : BukkitRunnable() {
     private val audience = player.toAudience()
     private val startedLocation = player.location
@@ -41,7 +41,17 @@ class PlayerTeleporter(
             )
         )
 
-        teleportAnimation.playAnimation()
+        if (playAnimation) {
+            teleportAnimation.playAnimation()
+        }
+
+        val displayLocation = BaseModule.config.territoryDisplayLocation
+        if (displayLocation == EventDisplayLocation.ACTIONBAR ||
+            displayLocation == EventDisplayLocation.CHAT
+        ) {
+            displayLocation.display(player, titleKey, null)
+        }
+
         runTaskTimer(plugin, 0, 20)
     }
 
@@ -62,14 +72,19 @@ class PlayerTeleporter(
 
         val leftSeconds = ceil((standStillMs - (current - startTime)) / 1000.0).toInt()
         val displayLocation = BaseModule.config.territoryDisplayLocation
-        displayLocation.display(player, titleKey, subtitleKey, mapOf("time" to leftSeconds.toString()))
+
+        displayLocation.displayLocationHandler(
+            player,
+            titleKey,
+            subtitleKey,
+            mapOf("time" to leftSeconds.toString())
+        )
 
         val distance = player.location.distanceSquared(startedLocation)
         if (distance > 0.01) {
             player.sendLocalized("base.player-teleport.cancel-message")
             audience.clearTitle()
             cancel()
-            return
         }
     }
 }
