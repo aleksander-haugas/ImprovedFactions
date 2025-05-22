@@ -9,7 +9,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
-class ChatListener(private val config: ChatModuleConfig,
+class ChatListener(private val config: ChatModuleConfig, 
                    private val chatModuleHandle: ChatModuleHandle) : Listener {
     @EventHandler
     private fun onChat(event: AsyncPlayerChatEvent) {

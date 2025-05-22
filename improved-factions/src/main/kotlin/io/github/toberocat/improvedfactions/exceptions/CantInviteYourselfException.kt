@@ -1,5 +1,7 @@
 package io.github.toberocat.improvedfactions.exceptions
 
-import io.github.toberocat.toberocore.command.exceptions.CommandException
+import io.github.toberocat.improvedfactions.annotations.localization.Localization
+import io.github.toberocat.improvedfactions.translation.LocalizedException
 
-class CantInviteYourselfException : CommandException("base.exceptions.cant-invite-yourself", emptyMap())
+@Localization("base.exceptions.cant-invite-yourself")
+class CantInviteYourselfException : LocalizedException("base.exceptions.cant-invite-yourself")
