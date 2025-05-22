@@ -107,6 +107,11 @@ tasks.shadowJar {
     relocate("dev.s7a", "io.github.toberocat.relocated.base64itemstack")
     relocate("org.bstats", "io.github.toberocat.relocated.bstats")
     relocate("com.jeff_media.updatechecker", "io.github.toberocat.relocated.updatechecker")
+    
+    exclude("META-INF/LICENSE*")
+    exclude("META-INF/NOTICE*")
+
+    mergeServiceFiles()
 }
 
 tasks {
