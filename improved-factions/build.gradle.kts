@@ -159,22 +159,26 @@ publishing {
     }
 }
 
-val generateBuildConfig: Task by tasks.creating {
-    val outputDir = layout.buildDirectory.dir("generated/source/buildConfig/kotlin").get()
-    Files.createDirectories(outputDir.asFile.toPath())
+val generateBuildConfig by tasks.registering {
+    val outputDir = layout.buildDirectory.dir("generated/source/buildConfig/kotlin")
+    val outputFile = outputDir.map { it.file("BuildConfig.kt") }
 
-    val versionName = version.toString()
+    // Properly declare outputs
+    outputs.file(outputFile)
 
     doLast {
-        val buildConfigFile = outputDir.file("BuildConfig.kt")
-        buildConfigFile.asFile.writeText(
+        val dir = outputDir.get().asFile
+        Files.createDirectories(dir.toPath())
+
+        val file = outputFile.get().asFile
+        file.writeText(
             """
             object BuildConfig {
-                const val VERSION_NAME = "$versionName"
+                const val VERSION_NAME = "${project.version}"
                 const val BUILD_INCREMENT = $buildIncrement
-                const val VERSION = "$versionName.$buildIncrement"
+                const val VERSION = "${project.version}.$buildIncrement"
             }
-        """.trimIndent()
+            """.trimIndent()
         )
     }
 }
