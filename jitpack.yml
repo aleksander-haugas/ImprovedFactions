@@ -1,5 +1,9 @@
 jdk:
-  - openjdk22
+  - openjdk21
+
+env:
+  global:
+    CI: "true"
 
 before_install:
   - cd improved-factions

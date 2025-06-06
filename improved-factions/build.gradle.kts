@@ -1,3 +1,4 @@
+import com.google.devtools.ksp.gradle.KspTask
 import java.nio.file.Files
 import java.util.*
 
@@ -97,6 +98,10 @@ tasks.named<Copy>("processResources") {
     }
 }
 
+tasks.withType<KspTask>().configureEach {
+    dependsOn(generateBuildConfig)
+}
+
 tasks.shadowJar {
     archiveFileName.set("${project.name}-${project.version}.jar")
     if (System.getenv("CI") == null) {
@@ -163,22 +168,34 @@ val generateBuildConfig by tasks.registering {
     val outputDir = layout.buildDirectory.dir("generated/source/buildConfig/kotlin")
     val outputFile = outputDir.map { it.file("BuildConfig.kt") }
 
-    // Properly declare outputs
     outputs.file(outputFile)
 
     doLast {
         val dir = outputDir.get().asFile
-        Files.createDirectories(dir.toPath())
-
-        val file = outputFile.get().asFile
-        file.writeText(
-            """
-            object BuildConfig {
-                const val VERSION_NAME = "${project.version}"
-                const val BUILD_INCREMENT = $buildIncrement
-                const val VERSION = "${project.version}.$buildIncrement"
+        try {
+            if (!dir.exists()) {
+                dir.mkdirs()
+                if (!dir.exists()) {
+                    Files.createDirectories(dir.toPath())
+                }
             }
-            """.trimIndent()
-        )
+
+            logger.info("BuildConfig directory created at: ${dir.absolutePath}, exists: ${dir.exists()}")
+
+            val file = outputFile.get().asFile
+            file.writeText(
+                """
+                object BuildConfig {
+                    const val VERSION_NAME = "${project.version}"
+                    const val BUILD_INCREMENT = $buildIncrement
+                    const val VERSION = "${project.version}.$buildIncrement"
+                }
+                """.trimIndent()
+            )
+            logger.info("BuildConfig.kt generated successfully at: ${file.absolutePath}")
+        } catch (e: Exception) {
+            logger.error("Failed to generate BuildConfig.kt: ${e.message}")
+            throw e
+        }
     }
 }
