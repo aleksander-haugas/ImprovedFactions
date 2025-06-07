@@ -43,7 +43,7 @@ For java usage, one has to check jetbrains exposed documentation
 
 ### Further docs
 
-<a href="/api/index.html" target="_blank" rel="noopener noreferrer">Browse full API documentation</a>
+<a href="/ImprovedFactions/api/index.html" target="_blank" rel="noopener noreferrer">Browse full API documentation</a>
 
 ### Get help
 
