@@ -11,20 +11,14 @@ This guide explains how to display a player's faction name in chat using **Impro
 
 1. [Improved Factions](https://modrinth.com/plugin/improved-factions)
 2. [PlaceholderAPI (PAPI)](https://www.spigotmc.org/resources/placeholderapi.6245/)
-3. A chat formatting plugin (e.g., EssentialsX or LPC):
-
-   * EssentialsX users **must** use **ChatInjector**:
-
-     * For Minecraft 1.20+, use [ChatInjector 1.20+ (v1.2+)](https://www.spigotmc.org/resources/chatinjector-1-20.81201/)
-     * For older versions, use legacy ChatInjector versions
-
+3. A chat formatting plugin (e.g., LPC):
 ---
 
 ## Steps
 
 ### 1. Install the Plugins
 
-* Add **Improved Factions**, **PAPI**, and a chat formatter (e.g., EssentialsX or LPC) to your server’s `plugins` folder.
+* Add **Improved Factions**, **PAPI**, and a chat formatter (e.g., LPC) to your server’s `plugins` folder.
 * Start the server to generate the configuration files.
 
 ---
@@ -37,34 +31,6 @@ This guide explains how to display a player's faction name in chat using **Impro
 ---
 
 ### 3. Configure Chat Formatting
-
-#### EssentialsX (With ChatInjector)
-
-EssentialsX alone doesn't support PAPI placeholders. Use **ChatInjector**, but note version differences:
-
-##### ➤ **ChatInjector < v1.2 (legacy versions)**
-
-* Uses `{}` for placeholders (not `%`)
-* No additional dependencies required
-
-```yaml
-# Essentials/config.yml
-format: "{DISPLAYNAME} [&a{faction_name}&r] >> {MESSAGE}"
-```
-
-##### ➤ **ChatInjector ≥ v1.2 (for 1.20+ servers)**
-
-* Uses standard `%%` placeholders like `%faction_name%`
-* Requires **ProtocolLib** to function
-
-```yaml
-# Essentials/config.yml
-format: "%displayname% [&a%faction_name%&r] >> %message%"
-```
-
-> ✅ Be sure to install [ProtocolLib](https://www.spigotmc.org/resources/protocollib.1997/) for versions 1.2+!
-
----
 
 ### LPC Chat Formatter
 

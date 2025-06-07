@@ -126,8 +126,18 @@ const config: Config = {
                             to: 'docs/placeholders',
                             label: 'Papi Placeholders',
                         },
+                        {
+                            to: 'docs/Api/getting-started',
+                            label: 'API Guide',
+                        },
+                        {
+                            label: 'API Docs',
+                            href: '/api/index.html',
+                            target: '_blank', 
+                        },
                     ],
                 },
+
                 {
                     type: 'dropdown',
                     label: 'Community',

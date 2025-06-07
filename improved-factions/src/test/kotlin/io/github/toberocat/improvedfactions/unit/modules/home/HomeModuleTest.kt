@@ -3,6 +3,7 @@ package io.github.toberocat.improvedfactions.unit.modules.home
 import io.github.toberocat.improvedfactions.claims.FactionClaims
 import io.github.toberocat.improvedfactions.modules.home.HomeModule.setHome
 import io.github.toberocat.improvedfactions.ImprovedFactionsTest
+import io.github.toberocat.improvedfactions.translation.LocalizedException
 import io.github.toberocat.toberocore.command.exceptions.CommandException
 import org.bukkit.Location
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -28,7 +29,7 @@ class HomeModuleTest : ImprovedFactionsTest() {
         val faction = testFaction()
         val world = testWorld()
         transaction {
-            assertThrows<CommandException> { faction.setHome(Location(world, 0.0, 0.0, 0.0)) }
+            assertThrows<LocalizedException> { faction.setHome(Location(world, 0.0, 0.0, 0.0)) }
         }
     }
 }

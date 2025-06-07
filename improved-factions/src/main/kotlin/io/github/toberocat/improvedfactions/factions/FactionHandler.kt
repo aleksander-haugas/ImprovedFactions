@@ -11,6 +11,7 @@ import io.github.toberocat.improvedfactions.translation.sendLocalized
 import io.github.toberocat.toberocore.util.ItemBuilder
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import io.github.toberocat.improvedfactions.api.events.FactionCreateEvent
 import org.jetbrains.exposed.sql.SizedIterable
 import java.util.*
 
@@ -22,7 +23,7 @@ object FactionHandler {
     @Localization("factions.faction-already-exists")
     @Localization("factions.already-in-faction")
     fun createFaction(ownerId: UUID, factionName: String, id: Int? = null): Faction {
-        return loggedTransaction {
+        val faction = loggedTransaction {
             val faction = Faction.new(id) {
                 owner = ownerId
                 localName = factionName
@@ -38,6 +39,8 @@ object FactionHandler {
             faction.setAccumulatedPower(faction.maxPower, PowerAccumulationChangeReason.PASSIVE_ENERGY_ACCUMULATION)
             return@loggedTransaction faction
         }
+        Bukkit.getPluginManager().callEvent(FactionCreateEvent(faction))
+        return faction
     }
 
     fun generateColor(id: Int) = Integer.parseInt(

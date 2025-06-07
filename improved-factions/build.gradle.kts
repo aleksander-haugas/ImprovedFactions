@@ -8,6 +8,7 @@ plugins {
     id("maven-publish")
     id("com.gradleup.shadow") version "9.0.0-beta13"
     id("com.github.ben-manes.versions") version "0.52.0"
+    id("org.jetbrains.dokka") version "2.0.0"
 }
 
 val versionPropsFile = file("version.properties")
@@ -100,6 +101,14 @@ tasks.named<Copy>("processResources") {
 
 tasks.withType<KspTask>().configureEach {
     dependsOn(generateBuildConfig)
+}
+
+tasks.register<org.jetbrains.dokka.gradle.DokkaTask>("dokkaDocusaurus") {
+    outputDirectory.set(file("../improved-factions-docs/static/api"))
+    dokkaSourceSets.configureEach {
+        skipEmptyPackages.set(true)
+        reportUndocumented.set(true)
+    }
 }
 
 tasks.shadowJar {
