@@ -127,7 +127,7 @@ const config: Config = {
                             label: 'Papi Placeholders',
                         },
                         {
-                            to: 'docs/Api/getting-started',
+                            to: 'docs/api/getting-started',
                             label: 'API Guide',
                         },
                         {
