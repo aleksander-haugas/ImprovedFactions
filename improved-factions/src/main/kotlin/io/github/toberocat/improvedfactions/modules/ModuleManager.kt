@@ -9,6 +9,7 @@ import io.github.toberocat.improvedfactions.modules.dynmap.DynmapModule
 import io.github.toberocat.improvedfactions.modules.gui.GuiModule
 import io.github.toberocat.improvedfactions.modules.home.HomeModule
 import io.github.toberocat.improvedfactions.modules.power.PowerRaidsModule
+import io.github.toberocat.improvedfactions.modules.protection.ProtectionModule
 import io.github.toberocat.improvedfactions.modules.relations.RelationsModule
 import io.github.toberocat.improvedfactions.modules.wilderness.WildernessModule
 import io.github.toberocat.toberocore.command.CommandExecutor
@@ -24,7 +25,8 @@ class ModuleManager(private val plugin: ImprovedFactionsPlugin) {
         ChatModule.chatPair(),
         GuiModule.guiPair(),
         ClaimParticleModule.claimParticlesPair(),
-        RelationsModule.relationsModulePair()
+        RelationsModule.relationsModulePair(),
+        ProtectionModule.protectionPair()
     )
 
     init {
