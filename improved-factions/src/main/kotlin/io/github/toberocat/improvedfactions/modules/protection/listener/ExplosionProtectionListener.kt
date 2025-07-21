@@ -119,3 +119,4 @@ class ExplosionProtectionListener(private val plugin: ImprovedFactionsPlugin, pr
         }
     }
 }
+

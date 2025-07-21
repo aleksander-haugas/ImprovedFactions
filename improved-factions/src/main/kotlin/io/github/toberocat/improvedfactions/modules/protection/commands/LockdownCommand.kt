@@ -4,6 +4,10 @@ package io.github.toberocat.improvedfactions.modules.protection.commands
 import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin
 import io.github.toberocat.improvedfactions.database.DatabaseManager.loggedTransaction
 import io.github.toberocat.improvedfactions.factions.Faction
+import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdown
+import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdownViolation
+import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdownViolations
+import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdowns
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.LockdownManager
 import io.github.toberocat.improvedfactions.user.factionUser
 import io.github.toberocat.improvedfactions.utils.command.CommandCategory
@@ -12,8 +16,13 @@ import io.github.toberocat.improvedfactions.utils.options.InFactionOption
 import io.github.toberocat.toberocore.command.PlayerSubCommand
 import io.github.toberocat.toberocore.command.arguments.Argument
 import io.github.toberocat.toberocore.command.options.Options
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
+import org.jetbrains.exposed.sql.SortOrder
+import org.jetbrains.exposed.sql.and
 
 @CommandMeta(
     category = CommandCategory.MANAGE_CATEGORY,
@@ -52,12 +61,43 @@ class LockdownCommand(
                 handleActivate(player, faction, args[1])
             }
             "start" -> handleStartSupervision(player, faction)
+            "violations" -> handleViolations(player, faction)
             else -> {
                 player.sendMessage("${ChatColor.RED}Subcomando desconocido. Usa 'activate' o 'start'.")
             }
         }
         return true
     }
+
+    // Modificamos la función hasViolations
+    private fun handleViolations(player: Player, faction: Faction) {
+        loggedTransaction {
+            val lockdown = FactionLockdown.find {
+                (FactionLockdowns.factId eq faction.id.toString()) and
+                        (FactionLockdowns.endTime greater Clock.System.now()
+                            .toLocalDateTime(TimeZone.currentSystemDefault()))
+            }.firstOrNull()
+
+            if (lockdown == null) {
+                player.sendMessage("${ChatColor.RED}Tu facción no tiene un período de lockdown activo.")
+                return@loggedTransaction
+            }
+
+            player.sendMessage("${ChatColor.YELLOW}=== Violaciones del Lockdown ===")
+
+            FactionLockdownViolation
+                .find { FactionLockdownViolations.lockdownId eq lockdown.id }
+                .orderBy(FactionLockdownViolations.timestamp to SortOrder.DESC)
+                .forEach { violation ->
+                    player.sendMessage(
+                        "${ChatColor.RED}${violation.violationType}: " +
+                                "${ChatColor.WHITE}${violation.details} " +
+                                "${ChatColor.GRAY}(${violation.timestamp})"
+                    )
+                }
+        }
+    }
+
 
     private fun handleActivate(player: Player, faction: Faction, durationStr: String) {
         val duration = parseDuration(durationStr) ?: run {

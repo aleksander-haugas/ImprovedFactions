@@ -7,6 +7,8 @@ import io.github.toberocat.improvedfactions.modules.protection.config.Protection
 import io.github.toberocat.improvedfactions.modules.protection.listener.ExplosionProtectionListener
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.LockdownManager
 import io.github.toberocat.improvedfactions.modules.protection.commands.LockdownCommand
+import io.github.toberocat.improvedfactions.modules.protection.listener.FactionProtectionAuditor
+import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdownViolations
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdowns
 import io.github.toberocat.toberocore.command.CommandExecutor
 
@@ -17,25 +19,27 @@ object ProtectionModule : BaseModule {
     override var isEnabled = false
 
     override fun onLoadDatabase(plugin: ImprovedFactionsPlugin) {
-        DatabaseManager.createTables(FactionLockdowns)
+        DatabaseManager.createTables(FactionLockdowns, FactionLockdownViolations)
     }
 
 
     private val config = ProtectionModuleConfig()
     private lateinit var explosionListener: ExplosionProtectionListener
     private lateinit var lockdownManager: LockdownManager
+    private lateinit var lockdownViolationListener: FactionProtectionAuditor
 
     override fun onEnable(plugin: ImprovedFactionsPlugin) {
         config.reload(plugin.config)
 
-        lockdownManager = LockdownManager(config)
+        lockdownManager = LockdownManager(plugin, config)
         explosionListener = ExplosionProtectionListener(plugin, config)
+        lockdownViolationListener = FactionProtectionAuditor(lockdownManager)
 
         plugin.server.pluginManager.registerEvents(explosionListener, plugin)
-
-        isEnabled = true
+        plugin.server.pluginManager.registerEvents(lockdownViolationListener, plugin)
         plugin.logger.info("ProtectionModule enabled.")
     }
+
 
     override fun reloadConfig(plugin: ImprovedFactionsPlugin) {
         config.reload(plugin.config)
@@ -46,6 +50,11 @@ object ProtectionModule : BaseModule {
         executor.addChild(LockdownCommand(plugin, lockdownManager)
         )
     }
+
+    //fun onDisable(plugin: ImprovedFactionsPlugin) {
+    //    lockdownManager.cleanup()
+    //}
+
 
     fun protectionPair() = MODULE_NAME to this
 }

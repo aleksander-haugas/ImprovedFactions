@@ -147,6 +147,15 @@ factions:
     prevent-tnt-griefing-in-safezone: true
     prevent-creeper-griefing-in-wilderness: false
     prevent-tnt-griefing-in-wilderness: false
+    lockdown-supervision-period: 180
+    lockdown-allowed-durations:
+      - 3600
+      - 10800
+      - 43200
+      - 86400
+      - 259200
+      - 604800
+
   #
   # -------- { Dynmap Module Settings } --------
   # These settings only apply when you enabled this module.

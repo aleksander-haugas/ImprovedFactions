@@ -3,7 +3,7 @@ package io.github.toberocat.improvedfactions.modules.protection.config
 
 import org.bukkit.configuration.file.FileConfiguration
 
-class ProtectionModuleConfig (
+class ProtectionModuleConfig(
     var preventCreeperGriefingInClaims: Boolean = true,
     var preventTntGriefingInClaims: Boolean = true,
     var preventCreeperGriefingInWarzone: Boolean = true,
@@ -18,16 +18,31 @@ class ProtectionModuleConfig (
         259200,    // 3 días
         604800     // 7 días
     )
-){
-    private val configPath = "factions.protection"
+) {
+    private val configPath = "factions.protection-settings"
 
     fun reload(config: FileConfiguration) {
-        preventCreeperGriefingInClaims = config.getBoolean("$configPath.prevent-creeper-griefing-in-claims", true)
-        preventTntGriefingInClaims = config.getBoolean("$configPath.prevent-tnt-griefing-in-claims", true)
-        preventCreeperGriefingInWarzone = config.getBoolean("$configPath.prevent-creeper-griefing-in-warzone", true)
-        preventTntGriefingInWarzone = config.getBoolean("$configPath.prevent-tnt-griefing-in-warzone", true)
-        lockdownSupervisionPeriod = config.getLong("$configPath.lockdown-supervision-period", 3600)
-        lockdownAllowedDurations = config.getLongList("$configPath.lockdown-allowed-durations")
-            ?: listOf(3600, 10800, 43200, 86400, 259200, 604800)
+        preventCreeperGriefingInClaims = config.getBoolean("$configPath.prevent-creeper-griefing-in-claims", preventCreeperGriefingInClaims)
+        preventTntGriefingInClaims = config.getBoolean("$configPath.prevent-tnt-griefing-in-claims", preventTntGriefingInClaims)
+        preventCreeperGriefingInWarzone = config.getBoolean("$configPath.prevent-creeper-griefing-in-warzone", preventCreeperGriefingInWarzone)
+        preventTntGriefingInWarzone = config.getBoolean("$configPath.prevent-tnt-griefing-in-warzone", preventTntGriefingInWarzone)
+
+        // Usar el valor de la configuración o el valor por defecto si no está definido
+        lockdownSupervisionPeriod = config.getLong("$configPath.lockdown-supervision-period", lockdownSupervisionPeriod)
+
+        // Para las duraciones permitidas, usar la lista de la configuración o la lista por defecto si está vacía
+        val configDurations = config.getLongList("$configPath.lockdown-allowed-durations")
+        lockdownAllowedDurations = if (configDurations.isEmpty()) {
+            listOf(
+                3600,      // 1 hora
+                10800,     // 3 horas
+                43200,     // 12 horas
+                86400,     // 1 día
+                259200,    // 3 días
+                604800     // 7 días
+            )
+        } else {
+            configDurations
+        }
     }
 }
