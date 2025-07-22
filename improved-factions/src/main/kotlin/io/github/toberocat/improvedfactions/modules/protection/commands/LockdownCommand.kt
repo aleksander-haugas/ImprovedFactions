@@ -98,7 +98,7 @@ class LockdownCommand(
         }
     }
 
-
+    // Activamos el estado de la lockdown
     private fun handleActivate(player: Player, faction: Faction, durationStr: String) {
         val duration = parseDuration(durationStr) ?: run {
             player.sendMessage("${ChatColor.RED}Duración inválida. Opciones disponibles: 1h, 3h, 12h, 1d, 3d, 7d")

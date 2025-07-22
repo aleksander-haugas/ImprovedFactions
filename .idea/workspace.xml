@@ -5,15 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad9c7d4c-34f8-4c4a-9806-e72e98556779" name="Changes" comment="Added config option to hide wilderness title">
-      <change afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/listener/FactionProtectionAuditor.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/lockdown/LockdownBossBar.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/lockdown/LockdownViolations.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/ProtectionModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/ProtectionModule.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/commands/LockdownCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/commands/LockdownCommand.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/config/ProtectionModuleConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/config/ProtectionModuleConfig.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/listener/ExplosionProtectionListener.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/listener/ExplosionProtectionListener.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/listener/FactionProtectionAuditor.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/lockdown/LockdownBossBar.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/lockdown/LockdownBossBar.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/lockdown/LockdownManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/protection/lockdown/LockdownManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/resources/config.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,6 +146,7 @@
       <recent name="C:\Users\Aleksander\Documents\GitHub\ImprovedFactions\improved-factions\src\main\kotlin\io\github\toberocat\improvedfactions\modules" />
     </key>
     <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
+      <recent name="io.github.toberocat.improvedfactions.modules.protection.lockdown" />
       <recent name="io.github.toberocat.improvedfactions.modules.protection" />
     </key>
   </component>
@@ -213,7 +213,7 @@
       <workItem from="1725804428962" duration="2666000" />
       <workItem from="1725898664176" duration="7290000" />
       <workItem from="1753050786752" duration="254000" />
-      <workItem from="1753057347475" duration="27824000" />
+      <workItem from="1753057347475" duration="46858000" />
     </task>
     <task id="LOCAL-00001" summary="Migrated to gradle instead of maven">
       <option name="closed" value="true" />

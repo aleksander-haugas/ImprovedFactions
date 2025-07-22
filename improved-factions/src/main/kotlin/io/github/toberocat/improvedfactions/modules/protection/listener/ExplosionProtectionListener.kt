@@ -5,35 +5,77 @@ import io.github.toberocat.improvedfactions.modules.protection.config.Protection
 import io.github.toberocat.improvedfactions.claims.FactionClaim
 import io.github.toberocat.improvedfactions.claims.FactionClaims
 import io.github.toberocat.improvedfactions.database.DatabaseManager.loggedTransaction
+import io.github.toberocat.improvedfactions.modules.protection.ProtectionModule
+import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdown
+import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdowns
+import io.github.toberocat.improvedfactions.modules.protection.lockdown.ViolationType
+import io.github.toberocat.improvedfactions.user.factionUser
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlinx.datetime.toInstant
+import kotlinx.datetime.toLocalDateTime
 import org.bukkit.ChatColor
 import org.bukkit.Chunk
 import org.bukkit.entity.Creeper
+import org.bukkit.entity.Player
 import org.bukkit.entity.TNTPrimed
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityExplodeEvent
 import org.jetbrains.exposed.sql.and
 
 class ExplosionProtectionListener(private val plugin: ImprovedFactionsPlugin, private val config: ProtectionModuleConfig) : Listener {
+
 
     @EventHandler
     fun onEntityExplode(event: EntityExplodeEvent) {
         loggedTransaction {
             val location = event.location
             val chunk = location.chunk
-
-            // Determinar el tipo de explosión
             val isCreeper = event.entity is Creeper
             val isTNT = event.entity is TNTPrimed
 
-            // Obtener el claim del chunk actual
             val claim = getFactionClaim(chunk)
+            val faction = claim?.faction()
 
-            // Verificar si está en territorio reclamado o zona de guerra
+            if (faction != null) {
+                val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+                val lockdown = FactionLockdown.find {
+                    FactionLockdowns.factId eq faction.id.value.toString()
+                }.firstOrNull()
+
+                if (lockdown != null) {
+                    // Verificar si está en período de supervisión
+                    val supervisionEnd = lockdown.supervisionStartTime
+                        .toInstant(TimeZone.currentSystemDefault())
+                        .plus(config.lockdownSupervisionPeriod, DateTimeUnit.SECOND)
+                        .toLocalDateTime(TimeZone.currentSystemDefault())
+
+                    if (now <= supervisionEnd && now >= lockdown.supervisionStartTime) {
+                        // Solo registrar si está en supervisión y es TNT
+                        if (isTNT) {
+                            val details = "TNT Explosion in territory at X:${location.blockX}, Y:${location.blockY}, Z:${location.blockZ}"
+                            ProtectionModule.lockdownManager.registerViolation(
+                                lockdown,
+                                ViolationType.OFFENSIVE_ACTION,
+                                details
+                            )
+
+                            faction.members().forEach { member ->
+                                member.player()?.sendMessage("${ChatColor.RED}¡Violación de lockdown detectada! $details")
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Manejar la cancelación de explosiones
             val isInClaim = claim?.isClaimed() == true
             val isInWarzone = claim?.zoneType == "warzone"
 
-            // Decidir si se debe cancelar la explosión
             val shouldCancel = when {
                 isCreeper && isInClaim && config.preventCreeperGriefingInClaims -> true
                 isCreeper && isInWarzone && config.preventCreeperGriefingInWarzone -> true
@@ -43,48 +85,49 @@ class ExplosionProtectionListener(private val plugin: ImprovedFactionsPlugin, pr
             }
 
             if (shouldCancel) {
-                // Cancelar la explosión
                 event.blockList().clear()
-
-                val faction = claim?.faction()
-                if (faction != null) {
-                    // Crear mensaje para notificación
+                faction?.let {
                     val explosionType = if (isCreeper) "Creeper" else "TNT"
-                    val message = StringBuilder().apply {
-                        append("${ChatColor.RED}[Explosion Blocked] ")
-                        append("${ChatColor.YELLOW}Type: $explosionType ")
-                        append("${ChatColor.GRAY}at X: ${location.blockX}, Y: ${location.blockY}, Z: ${location.blockZ} ")
-                        append("${ChatColor.GRAY}in ${location.world?.name}")
-                    }.toString()
-
-                    // Notificar solo a owners y admins de la facción
-                    faction.members().forEach { member ->
-                        if (member.uniqueId == faction.owner || member.hasPermission("factions.admin")) {
+                    val message = "${ChatColor.RED}[Explosion Blocked] ${ChatColor.YELLOW}Type: $explosionType"
+                
+                    // Notificar solo a owners y admins
+                    it.members().forEach { member ->
+                        if (member.uniqueId == it.owner || member.hasPermission("factions.admin")) {
                             member.player()?.sendMessage(message)
                         }
                     }
                 }
-            } else {
-                // Registrar la explosión permitida
-                val explosionType = when (event.entity) {
-                    is Creeper -> "Creeper"
-                    is TNTPrimed -> "TNT"
-                    else -> event.entity.type.name
-                }
+            }
+        }
+    }
 
-                val emessage = StringBuilder().apply {
-                    append("${ChatColor.RED}[Explosion Allowed] ")
-                    append("${ChatColor.YELLOW}Type: $explosionType ")
-                    append("${ChatColor.GRAY}at X: ${location.blockX}, Y: ${location.blockY}, Z: ${location.blockZ} ")
-                    append("${ChatColor.GRAY}in ${location.world?.name}")
-                }.toString()
+    fun onPlayerDamageByPlayer(event: EntityDamageByEntityEvent) {
+        if (event.entity !is Player || event.damager !is Player) return
 
-                // Notificar a jugadores cercanos
-                val radius = 50.0
-                location.world?.players?.forEach { player ->
-                    if (player.location.distance(location) <= radius) {
-                        player.sendMessage(emessage)
-                    }
+        val victim = event.entity as Player
+        val attacker = event.damager as Player
+
+        loggedTransaction {
+            val victimFaction = victim.factionUser().faction() ?: return@loggedTransaction
+            val attackerFaction = attacker.factionUser().faction()
+
+            // Verificar lockdown de la facción víctima
+            val lockdown = FactionLockdown.find {
+                (FactionLockdowns.factId eq victimFaction.id.value.toString()) and
+                        (FactionLockdowns.endTime greater Clock.System.now()
+                            .toLocalDateTime(TimeZone.currentSystemDefault()))
+            }.firstOrNull()
+
+            if (lockdown != null) {
+                val details = "PvP engagement: ${attacker.name} attacked ${victim.name}"
+                ProtectionModule.lockdownManager.registerViolation(
+                    lockdown,
+                    ViolationType.PVP_ENGAGEMENT,
+                    details
+                )
+
+                victimFaction.members().forEach { member ->
+                    member.player()?.sendMessage("${ChatColor.RED}¡Violación de lockdown detectada! $details")
                 }
             }
         }
@@ -119,4 +162,3 @@ class ExplosionProtectionListener(private val plugin: ImprovedFactionsPlugin, pr
         }
     }
 }
-
