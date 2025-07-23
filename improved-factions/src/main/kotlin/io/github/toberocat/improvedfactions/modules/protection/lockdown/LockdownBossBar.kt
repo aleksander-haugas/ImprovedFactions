@@ -6,7 +6,6 @@ import io.github.toberocat.improvedfactions.database.DatabaseManager.loggedTrans
 import io.github.toberocat.improvedfactions.factions.Faction
 import io.github.toberocat.improvedfactions.modules.protection.config.ProtectionModuleConfig
 import io.github.toberocat.improvedfactions.user.factionUser
-import kotlinx.datetime.*
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
@@ -14,7 +13,6 @@ import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
-import java.util.concurrent.ConcurrentHashMap
 
 class LockdownBossBar(
     private val plugin: ImprovedFactionsPlugin,

@@ -9,9 +9,11 @@ import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionL
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdownViolations
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdowns
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.LockdownManager
+import io.github.toberocat.improvedfactions.modules.protection.lockdown.LockdownState
 import io.github.toberocat.improvedfactions.user.factionUser
 import io.github.toberocat.improvedfactions.utils.command.CommandCategory
 import io.github.toberocat.improvedfactions.utils.command.CommandMeta
+import io.github.toberocat.improvedfactions.utils.options.FactionPermissionOption
 import io.github.toberocat.improvedfactions.utils.options.InFactionOption
 import io.github.toberocat.toberocore.command.PlayerSubCommand
 import io.github.toberocat.toberocore.command.arguments.Argument
@@ -23,12 +25,14 @@ import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.jetbrains.exposed.sql.SortOrder
 import org.jetbrains.exposed.sql.and
+import kotlin.time.Duration
 
 @CommandMeta(
     category = CommandCategory.MANAGE_CATEGORY,
     description = "protection.commands.lockdown.description",
     module = "protection"
 )
+
 class LockdownCommand(
     private val plugin: ImprovedFactionsPlugin,
     private val lockdownManager: LockdownManager
@@ -36,6 +40,7 @@ class LockdownCommand(
 
     override fun options(): Options = Options.getFromConfig(plugin, label) { options, _ ->
         options.cmdOpt(InFactionOption(true))
+        options.cmdOpt(FactionPermissionOption("lockdown.manage"))
     }
 
     override fun arguments(): Array<Argument<*>> = emptyArray()
@@ -52,22 +57,73 @@ class LockdownCommand(
             return true
         }
 
-        when (args[0].toLowerCase()) {
-            "activate" -> {
-                if (args.size < 2) {
-                    player.sendMessage("${ChatColor.RED}Uso: /f lockdown activate <duration>")
-                    return true
-                }
-                handleActivate(player, faction, args[1])
+        // Verificar que el jugador tenga el permiso necesario
+        loggedTransaction {
+            if (!player.factionUser().hasPermission("lockdown.manage")) {
+                player.sendMessage("${ChatColor.RED}No tienes permiso para gestionar el lockdown.")
+                return@loggedTransaction true
             }
+        }
+
+        when (args[0].toLowerCase()) {
+            "activate" -> handleActivate(player, faction, args.getOrNull(1))
             "start" -> handleStartSupervision(player, faction)
             "violations" -> handleViolations(player, faction)
+            "status" -> handleStatus(player, faction)
             else -> {
-                player.sendMessage("${ChatColor.RED}Subcomando desconocido. Usa 'activate' o 'start'.")
+                player.sendMessage("${ChatColor.RED}Subcomando desconocido. Usa 'activate', 'start', 'status' o 'violations'.")
             }
         }
         return true
     }
+
+    // Agregar esta nueva función a la clase:
+    private fun handleStatus(player: Player, faction: Faction) {
+        val status = lockdownManager.getLockdownStatus(faction)
+
+        player.sendMessage("${ChatColor.YELLOW}=== Estado del Lockdown ===")
+
+        when (status.state) {
+            LockdownState.NONE -> {
+                player.sendMessage("${ChatColor.RED}No hay ningún lockdown activo o en supervisión.")
+                player.sendMessage("${ChatColor.GRAY}Usa '/f lockdown start' para iniciar el período de supervisión.")
+            }
+            LockdownState.IN_SUPERVISION -> {
+                player.sendMessage("${ChatColor.GREEN}Estado: ${ChatColor.WHITE}En período de supervisión")
+                player.sendMessage("${ChatColor.GREEN}Tiempo restante: ${ChatColor.WHITE}${formatDuration(status.remainingTime)}")
+                if (status.hasViolations) {
+                    player.sendMessage("${ChatColor.RED}¡Atención! Se han detectado violaciones durante la supervisión.")
+                    player.sendMessage("${ChatColor.RED}No podrás activar el lockdown hasta iniciar una nueva supervisión.")
+                } else {
+                    player.sendMessage("${ChatColor.GREEN}No se han detectado violaciones.")
+                    player.sendMessage("${ChatColor.GRAY}Podrás activar el lockdown cuando termine el período de supervisión.")
+                }
+            }
+            LockdownState.ACTIVE -> {
+                player.sendMessage("${ChatColor.GREEN}Estado: ${ChatColor.WHITE}Lockdown Activo")
+                player.sendMessage("${ChatColor.GREEN}Tipo: ${ChatColor.WHITE}${status.lockdownType?.displayName}")
+                player.sendMessage("${ChatColor.GREEN}Tiempo restante: ${ChatColor.WHITE}${formatDuration(status.remainingTime)}")
+            }
+        }
+    }
+
+    private fun formatDuration(duration: Duration?): String {
+        if (duration == null) return "0 segundos"
+
+        val seconds = duration.inWholeSeconds
+        val days = seconds / 86400
+        val hours = (seconds % 86400) / 3600
+        val minutes = (seconds % 3600) / 60
+        val remainingSeconds = seconds % 60
+
+        return buildString {
+            if (days > 0) append("$days días ")
+            if (hours > 0) append("$hours horas ")
+            if (minutes > 0) append("$minutes minutos ")
+            if (remainingSeconds > 0) append("$remainingSeconds segundos")
+        }.trim()
+    }
+
 
     // Modificamos la función hasViolations
     private fun handleViolations(player: Player, faction: Faction) {
@@ -99,7 +155,7 @@ class LockdownCommand(
     }
 
     // Activamos el estado de la lockdown
-    private fun handleActivate(player: Player, faction: Faction, durationStr: String) {
+    private fun handleActivate(player: Player, faction: Faction, durationStr: String?) {
         val duration = parseDuration(durationStr) ?: run {
             player.sendMessage("${ChatColor.RED}Duración inválida. Opciones disponibles: 1h, 3h, 12h, 1d, 3d, 7d")
             return
@@ -117,8 +173,8 @@ class LockdownCommand(
         player.sendMessage("${ChatColor.GREEN}Período de supervisión iniciado. Complétalo sin violaciones para poder activar el lockdown.")
     }
 
-    private fun parseDuration(durationStr: String): Long? {
-        return when (durationStr.toLowerCase()) {
+    private fun parseDuration(durationStr: String?): Long? {
+        return when (durationStr?.toLowerCase()) {
             "1h" -> 3600L
             "3h" -> 10800L
             "12h" -> 43200L

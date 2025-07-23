@@ -16,13 +16,13 @@ object FactionLockdownViolations : IntIdTable("faction_lockdown_violations") {
 
 class FactionLockdownViolation(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<FactionLockdownViolation>(FactionLockdownViolations)
-
     var lockdown by FactionLockdown referencedOn FactionLockdownViolations.lockdownId
     var violationType by FactionLockdownViolations.violationType
     var timestamp by FactionLockdownViolations.timestamp
     var details by FactionLockdownViolations.details
 }
 
+// Listar aquí los tipos de penalizaciones
 enum class ViolationType {
     OFFENSIVE_ACTION,
     UNDER_SIEGE,

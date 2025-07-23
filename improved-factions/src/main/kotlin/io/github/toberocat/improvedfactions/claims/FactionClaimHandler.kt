@@ -6,8 +6,6 @@ import org.bukkit.Chunk
 import org.bukkit.Location
 import org.bukkit.block.Block
 import org.jetbrains.exposed.sql.and
-import kotlin.math.ceil
-import kotlin.math.floor
 
 fun Block.getFactionClaim(): FactionClaim? = location.getFactionClaim()
 fun Location.getFactionClaim(): FactionClaim? = chunk.getFactionClaim()

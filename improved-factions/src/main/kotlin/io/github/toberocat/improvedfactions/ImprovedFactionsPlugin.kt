@@ -3,7 +3,6 @@ package io.github.toberocat.improvedfactions
 import com.jeff_media.updatechecker.UpdateCheckSource
 import com.jeff_media.updatechecker.UpdateChecker
 import com.jeff_media.updatechecker.UserAgentBuilder
-import io.github.toberocat.improvedfactions.claims.FactionClaims
 import io.github.toberocat.improvedfactions.claims.clustering.detector.ClaimClusterDetector
 import io.github.toberocat.improvedfactions.claims.clustering.query.DatabaseClaimQueryProvider
 import io.github.toberocat.improvedfactions.commands.FactionCommandExecutor
@@ -27,7 +26,6 @@ import io.github.toberocat.improvedfactions.utils.threadPool
 import io.github.toberocat.improvedfactions.zone.ZoneHandler
 import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
-import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin

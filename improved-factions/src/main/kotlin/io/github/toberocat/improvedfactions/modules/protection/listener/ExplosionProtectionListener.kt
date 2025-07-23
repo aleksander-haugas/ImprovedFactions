@@ -1,3 +1,4 @@
+
 package io.github.toberocat.improvedfactions.modules.protection.listener
 
 import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin
@@ -5,140 +6,184 @@ import io.github.toberocat.improvedfactions.modules.protection.config.Protection
 import io.github.toberocat.improvedfactions.claims.FactionClaim
 import io.github.toberocat.improvedfactions.claims.FactionClaims
 import io.github.toberocat.improvedfactions.database.DatabaseManager.loggedTransaction
+import io.github.toberocat.improvedfactions.factions.Faction
 import io.github.toberocat.improvedfactions.modules.protection.ProtectionModule
+import io.github.toberocat.improvedfactions.modules.protection.handlers.ExplosionHandler
+import io.github.toberocat.improvedfactions.modules.protection.notification.NotificationManager
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdown
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdowns
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.ViolationType
 import io.github.toberocat.improvedfactions.user.factionUser
 import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.plus
-import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
-import org.bukkit.ChatColor
 import org.bukkit.Chunk
 import org.bukkit.entity.Creeper
 import org.bukkit.entity.Player
 import org.bukkit.entity.TNTPrimed
+import org.bukkit.entity.minecart.ExplosiveMinecart
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityExplodeEvent
 import org.jetbrains.exposed.sql.and
 
-class ExplosionProtectionListener(private val plugin: ImprovedFactionsPlugin, private val config: ProtectionModuleConfig) : Listener {
+class ExplosionProtectionListener(
+    private val plugin: ImprovedFactionsPlugin,
+    private val config: ProtectionModuleConfig
+) : Listener {
+    private val explosionHandler = ExplosionHandler(config)
+    private val notificationManager = NotificationManager()
 
 
     @EventHandler
     fun onEntityExplode(event: EntityExplodeEvent) {
+        // Verificar si es TNT, Creeper o TNT Minecart
+        if (event.entity !is TNTPrimed &&
+            event.entity !is Creeper &&
+            event.entity !is ExplosiveMinecart) return
+
+        val sourcePlayer = if (event.entity is TNTPrimed) {
+            val tnt = event.entity as TNTPrimed
+            if (tnt.source is Player) tnt.source as Player else null
+        } else null
+
+        val sourceFaction = sourcePlayer?.let { getFactionOfPlayer(it) }
+
         loggedTransaction {
-            val location = event.location
-            val chunk = location.chunk
-            val isCreeper = event.entity is Creeper
-            val isTNT = event.entity is TNTPrimed
+            // Obtener la facción del territorio donde explotó
+            val targetClaim = getFactionClaim(event.location.chunk)
+            val targetFaction = targetClaim?.faction()
 
-            val claim = getFactionClaim(chunk)
-            val faction = claim?.faction()
+            // Si no hay claims o facciones involucradas, permitir la explosión
+            if (targetFaction == null) {
+                return@loggedTransaction
+            }
 
+            // Si es TNT dentro de la propia facción, solo verificar protección
+            if (event.entity is TNTPrimed && sourceFaction?.id?.value == targetFaction.id.value) {
+                handleExplosion(event, targetClaim, targetFaction)
+                return@loggedTransaction
+            }
+
+            // Para TNT, registrar violaciones si viene de otra facción
+            if (event.entity is TNTPrimed && sourceFaction != null && sourceFaction.id.value != targetFaction.id.value) {
+                val sourceLockdown = findActiveLockdown(sourceFaction)
+                val targetLockdown = findActiveLockdown(targetFaction)
+
+                if (sourceLockdown != null) {
+                    handleAttackerViolation(sourceFaction, targetFaction, event)
+                }
+
+                if (targetLockdown != null) {
+                    handleDefenderViolation(targetFaction, sourceFaction, event)
+                }
+            }
+
+            // Manejar la explosión (se cancela si hay protección activa)
+            handleExplosion(event, targetClaim, targetFaction)
+        }
+    }
+
+
+    private fun handleAttackerViolation(sourceFaction: Faction, targetFaction: Faction, event: EntityExplodeEvent) {
+        val lockdown = findActiveLockdown(sourceFaction)
+        if (lockdown != null) {
+            val details = "Ataque a territorio de ${targetFaction.name} en X:${event.location.blockX}, Y:${event.location.blockY}, Z:${event.location.blockZ}"
+            ProtectionModule.lockdownManager.registerViolation(
+                lockdown,
+                ViolationType.OFFENSIVE_ACTION,
+                details
+            )
+            notificationManager.notifyLockdownViolation(sourceFaction, details)
+        }
+    }
+
+    private fun handleDefenderViolation(targetFaction: Faction, sourceFaction: Faction, event: EntityExplodeEvent) {
+        val lockdown = findActiveLockdown(targetFaction)
+        if (lockdown != null) {
+            val details = "Territorio atacado por ${sourceFaction.name} en X:${event.location.blockX}, Y:${event.location.blockY}, Z:${event.location.blockZ}"
+            ProtectionModule.lockdownManager.registerViolation(
+                lockdown,
+                ViolationType.UNDER_SIEGE,
+                details
+            )
+            notificationManager.notifyLockdownViolation(targetFaction, details)
+        }
+    }
+
+
+    private fun getFactionOfPlayer(player: Player): Faction? {
+        return loggedTransaction {
+            player.factionUser().faction()
+        }
+    }
+
+    private fun findActiveLockdown(faction: Faction): FactionLockdown? {
+        return FactionLockdown.find {
+            (FactionLockdowns.factId eq faction.id.value.toString()) and
+                    (FactionLockdowns.supervisionStartTime lessEq Clock.System.now()
+                        .toLocalDateTime(TimeZone.currentSystemDefault()))
+        }.firstOrNull()
+    }
+
+
+    private fun handleLockdownViolation(event: EntityExplodeEvent, faction: Faction?) {
+        if (faction == null || event.entity !is TNTPrimed) return
+
+        val lockdown = findActiveLockdown(faction)
+        if (lockdown != null) {
+            val details = createExplosionDetails(event)
+            ProtectionModule.lockdownManager.registerViolation(
+                lockdown,
+                ViolationType.OFFENSIVE_ACTION,
+                details
+            )
+            notificationManager.notifyLockdownViolation(faction, details)
+        }
+    }
+
+    private fun handleExplosion(event: EntityExplodeEvent, claim: FactionClaim?, faction: Faction?) {
+        if (explosionHandler.shouldCancelExplosion(event, claim)) {
+            event.blockList().clear()
             if (faction != null) {
-                val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-                val lockdown = FactionLockdown.find {
-                    FactionLockdowns.factId eq faction.id.value.toString()
-                }.firstOrNull()
-
-                if (lockdown != null) {
-                    // Verificar si está en período de supervisión
-                    val supervisionEnd = lockdown.supervisionStartTime
-                        .toInstant(TimeZone.currentSystemDefault())
-                        .plus(config.lockdownSupervisionPeriod, DateTimeUnit.SECOND)
-                        .toLocalDateTime(TimeZone.currentSystemDefault())
-
-                    if (now <= supervisionEnd && now >= lockdown.supervisionStartTime) {
-                        // Solo registrar si está en supervisión y es TNT
-                        if (isTNT) {
-                            val details = "TNT Explosion in territory at X:${location.blockX}, Y:${location.blockY}, Z:${location.blockZ}"
-                            ProtectionModule.lockdownManager.registerViolation(
-                                lockdown,
-                                ViolationType.OFFENSIVE_ACTION,
-                                details
-                            )
-
-                            faction.members().forEach { member ->
-                                member.player()?.sendMessage("${ChatColor.RED}¡Violación de lockdown detectada! $details")
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Manejar la cancelación de explosiones
-            val isInClaim = claim?.isClaimed() == true
-            val isInWarzone = claim?.zoneType == "warzone"
-
-            val shouldCancel = when {
-                isCreeper && isInClaim && config.preventCreeperGriefingInClaims -> true
-                isCreeper && isInWarzone && config.preventCreeperGriefingInWarzone -> true
-                isTNT && isInClaim && config.preventTntGriefingInClaims -> true
-                isTNT && isInWarzone && config.preventTntGriefingInWarzone -> true
-                else -> false
-            }
-
-            if (shouldCancel) {
-                event.blockList().clear()
-                faction?.let {
-                    val explosionType = if (isCreeper) "Creeper" else "TNT"
-                    val message = "${ChatColor.RED}[Explosion Blocked] ${ChatColor.YELLOW}Type: $explosionType"
-                
-                    // Notificar solo a owners y admins
-                    it.members().forEach { member ->
-                        if (member.uniqueId == it.owner || member.hasPermission("factions.admin")) {
-                            member.player()?.sendMessage(message)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fun onPlayerDamageByPlayer(event: EntityDamageByEntityEvent) {
-        if (event.entity !is Player || event.damager !is Player) return
-
-        val victim = event.entity as Player
-        val attacker = event.damager as Player
-
-        loggedTransaction {
-            val victimFaction = victim.factionUser().faction() ?: return@loggedTransaction
-            val attackerFaction = attacker.factionUser().faction()
-
-            // Verificar lockdown de la facción víctima
-            val lockdown = FactionLockdown.find {
-                (FactionLockdowns.factId eq victimFaction.id.value.toString()) and
-                        (FactionLockdowns.endTime greater Clock.System.now()
-                            .toLocalDateTime(TimeZone.currentSystemDefault()))
-            }.firstOrNull()
-
-            if (lockdown != null) {
-                val details = "PvP engagement: ${attacker.name} attacked ${victim.name}"
-                ProtectionModule.lockdownManager.registerViolation(
-                    lockdown,
-                    ViolationType.PVP_ENGAGEMENT,
-                    details
+                notificationManager.notifyExplosionBlocked(
+                    faction,
+                    explosionHandler.getExplosionType(event),
+                    event.location
                 )
+            }
+        }
+    }
 
-                victimFaction.members().forEach { member ->
-                    member.player()?.sendMessage("${ChatColor.RED}¡Violación de lockdown detectada! $details")
+    private fun handleCrossClaimExplosion(event: EntityExplodeEvent, sourceFaction: Faction?) {
+        if (event.entity !is TNTPrimed) return
+
+        event.blockList().forEach { block ->
+            val blockClaim = getFactionClaim(block.chunk)
+            val targetFaction = blockClaim?.faction()
+
+            if (targetFaction != null && targetFaction != sourceFaction) {
+                val targetLockdown = findActiveLockdown(targetFaction)
+                if (targetLockdown != null) {
+                    val details = "TNT Explosion affecting territory at X:${block.x}, Y:${block.y}, Z:${block.z}"
+                    ProtectionModule.lockdownManager.registerViolation(
+                        targetLockdown,
+                        ViolationType.OFFENSIVE_ACTION,
+                        details
+                    )
                 }
             }
         }
     }
 
-    /**
-     * Finds a faction claim associated with a chunk.
-     *
-     * @param chunk The chunk to find the claim for
-     * @return The faction claim for the chunk if it exists, null otherwise
-     */
+    private fun createExplosionDetails(event: EntityExplodeEvent): String {
+        return StringBuilder().apply {
+            append("TNT Explosion ")
+            append("at X:${event.location.blockX}, Y:${event.location.blockY}, Z:${event.location.blockZ} ")
+            append("in territory")
+        }.toString()
+    }
+
     private fun getFactionClaim(chunk: Chunk): FactionClaim? {
         return try {
             loggedTransaction {
@@ -157,7 +202,7 @@ class ExplosionProtectionListener(private val plugin: ImprovedFactionsPlugin, pr
             Exception type: ${exception.javaClass.simpleName}
             Error message: ${exception.message}
             Stack trace: ${exception.stackTrace.take(3).joinToString("\n")}
-        """.trimIndent())
+            """.trimIndent())
             null
         }
     }
