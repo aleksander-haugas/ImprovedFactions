@@ -3,13 +3,13 @@ package io.github.toberocat.improvedfactions.modules.protection.listener
 
 import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin
 import io.github.toberocat.improvedfactions.modules.protection.config.ProtectionModuleConfig
+import io.github.toberocat.improvedfactions.modules.protection.notification.NotificationManager
 import io.github.toberocat.improvedfactions.claims.FactionClaim
 import io.github.toberocat.improvedfactions.claims.FactionClaims
 import io.github.toberocat.improvedfactions.database.DatabaseManager.loggedTransaction
 import io.github.toberocat.improvedfactions.factions.Faction
 import io.github.toberocat.improvedfactions.modules.protection.ProtectionModule
 import io.github.toberocat.improvedfactions.modules.protection.handlers.ExplosionHandler
-import io.github.toberocat.improvedfactions.modules.protection.notification.NotificationManager
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdown
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdowns
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.ViolationType
@@ -19,6 +19,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.bukkit.Chunk
 import org.bukkit.entity.Creeper
+import org.bukkit.entity.EnderCrystal
 import org.bukkit.entity.Player
 import org.bukkit.entity.TNTPrimed
 import org.bukkit.entity.minecart.ExplosiveMinecart
@@ -29,18 +30,18 @@ import org.jetbrains.exposed.sql.and
 
 class ExplosionProtectionListener(
     private val plugin: ImprovedFactionsPlugin,
-    private val config: ProtectionModuleConfig
+    config: ProtectionModuleConfig
 ) : Listener {
     private val explosionHandler = ExplosionHandler(config)
-    private val notificationManager = NotificationManager()
-
 
     @EventHandler
     fun onEntityExplode(event: EntityExplodeEvent) {
-        // Verificar si es TNT, Creeper o TNT Minecart
+        // Verificar si es TNT, Creeper, TNT Minecart o Cristal del End
         if (event.entity !is TNTPrimed &&
             event.entity !is Creeper &&
-            event.entity !is ExplosiveMinecart) return
+            event.entity !is ExplosiveMinecart &&
+            event.entity !is EnderCrystal
+        ) return
 
         val sourcePlayer = if (event.entity is TNTPrimed) {
             val tnt = event.entity as TNTPrimed
@@ -59,7 +60,7 @@ class ExplosionProtectionListener(
                 return@loggedTransaction
             }
 
-            // Si es TNT dentro de la propia facción, solo verificar protección
+            // Sí es TNT dentro de la propia facción, solo verificar protección
             if (event.entity is TNTPrimed && sourceFaction?.id?.value == targetFaction.id.value) {
                 handleExplosion(event, targetClaim, targetFaction)
                 return@loggedTransaction
@@ -84,7 +85,6 @@ class ExplosionProtectionListener(
         }
     }
 
-
     private fun handleAttackerViolation(sourceFaction: Faction, targetFaction: Faction, event: EntityExplodeEvent) {
         val lockdown = findActiveLockdown(sourceFaction)
         if (lockdown != null) {
@@ -94,7 +94,7 @@ class ExplosionProtectionListener(
                 ViolationType.OFFENSIVE_ACTION,
                 details
             )
-            notificationManager.notifyLockdownViolation(sourceFaction, details)
+            NotificationManager.notifyLockdownViolation(sourceFaction, details)
         }
     }
 
@@ -107,10 +107,22 @@ class ExplosionProtectionListener(
                 ViolationType.UNDER_SIEGE,
                 details
             )
-            notificationManager.notifyLockdownViolation(targetFaction, details)
+            NotificationManager.notifyLockdownViolation(targetFaction, details)
         }
     }
 
+    private fun handleExplosion(event: EntityExplodeEvent, claim: FactionClaim?, faction: Faction?) {
+        if (explosionHandler.shouldCancelExplosion(event, claim)) {
+            event.blockList().clear()
+            if (faction != null) {
+                NotificationManager.notifyExplosionBlocked(
+                    faction,
+                    explosionHandler.getExplosionType(event),
+                    event.location
+                )
+            }
+        }
+    }
 
     private fun getFactionOfPlayer(player: Player): Faction? {
         return loggedTransaction {
@@ -126,7 +138,6 @@ class ExplosionProtectionListener(
         }.firstOrNull()
     }
 
-
     private fun handleLockdownViolation(event: EntityExplodeEvent, faction: Faction?) {
         if (faction == null || event.entity !is TNTPrimed) return
 
@@ -138,20 +149,7 @@ class ExplosionProtectionListener(
                 ViolationType.OFFENSIVE_ACTION,
                 details
             )
-            notificationManager.notifyLockdownViolation(faction, details)
-        }
-    }
-
-    private fun handleExplosion(event: EntityExplodeEvent, claim: FactionClaim?, faction: Faction?) {
-        if (explosionHandler.shouldCancelExplosion(event, claim)) {
-            event.blockList().clear()
-            if (faction != null) {
-                notificationManager.notifyExplosionBlocked(
-                    faction,
-                    explosionHandler.getExplosionType(event),
-                    event.location
-                )
-            }
+            NotificationManager.notifyLockdownViolation(faction, details)
         }
     }
 

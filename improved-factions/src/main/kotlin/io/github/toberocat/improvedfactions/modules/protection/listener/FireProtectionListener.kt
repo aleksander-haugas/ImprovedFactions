@@ -25,7 +25,6 @@ class FireProtectionListener(
     private val plugin: ImprovedFactionsPlugin,
     private val config: ProtectionModuleConfig
 ) : Listener {
-    private val notificationManager = NotificationManager()
 
     @EventHandler(priority = EventPriority.HIGH)
     fun onBlockBurn(event: BlockBurnEvent) {
@@ -74,12 +73,13 @@ class FireProtectionListener(
         }
     }
 
+    // esto habria que hacerlo toggable para cada usuario si no es muucho spam
     private fun notifyFireProtection(block: Block, type: String) {
         loggedTransaction {
             val claim = getFactionClaim(block.chunk) ?: return@loggedTransaction
             val faction = claim.faction() ?: return@loggedTransaction
 
-            notificationManager.notifyFactionMembers(
+            NotificationManager.notifyFactionMembers(
                 faction,
                 "Fuego",
                 "X:${block.x}, Y:${block.y}, Z:${block.z}",

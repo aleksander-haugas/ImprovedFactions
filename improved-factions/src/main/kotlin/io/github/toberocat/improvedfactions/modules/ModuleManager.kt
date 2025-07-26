@@ -5,6 +5,7 @@ import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin.Companion.ins
 import io.github.toberocat.improvedfactions.modules.base.BaseModule
 import io.github.toberocat.improvedfactions.modules.chat.ChatModule
 import io.github.toberocat.improvedfactions.modules.claimparticle.ClaimParticleModule
+import io.github.toberocat.improvedfactions.modules.display.DisplayModule
 import io.github.toberocat.improvedfactions.modules.dynmap.DynmapModule
 import io.github.toberocat.improvedfactions.modules.gui.GuiModule
 import io.github.toberocat.improvedfactions.modules.home.HomeModule
@@ -26,7 +27,8 @@ class ModuleManager(private val plugin: ImprovedFactionsPlugin) {
         GuiModule.guiPair(),
         ClaimParticleModule.claimParticlesPair(),
         RelationsModule.relationsModulePair(),
-        ProtectionModule.protectionPair()
+        ProtectionModule.protectionPair(),
+        DisplayModule.displayPair()
     )
 
     init {

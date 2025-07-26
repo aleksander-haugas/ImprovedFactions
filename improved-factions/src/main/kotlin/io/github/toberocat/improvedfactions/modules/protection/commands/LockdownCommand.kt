@@ -65,7 +65,7 @@ class LockdownCommand(
             }
         }
 
-        when (args[0].toLowerCase()) {
+        when (args[0].lowercase()) {
             "activate" -> handleActivate(player, faction, args.getOrNull(1))
             "start" -> handleStartSupervision(player, faction)
             "violations" -> handleViolations(player, faction)
@@ -174,7 +174,7 @@ class LockdownCommand(
     }
 
     private fun parseDuration(durationStr: String?): Long? {
-        return when (durationStr?.toLowerCase()) {
+        return when (durationStr?.lowercase()) {
             "1h" -> 3600L
             "3h" -> 10800L
             "12h" -> 43200L

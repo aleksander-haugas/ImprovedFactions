@@ -7,9 +7,11 @@ import io.github.toberocat.improvedfactions.modules.protection.config.Protection
 import io.github.toberocat.improvedfactions.modules.protection.listener.ExplosionProtectionListener
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.LockdownManager
 import io.github.toberocat.improvedfactions.modules.protection.commands.LockdownCommand
+import io.github.toberocat.improvedfactions.modules.protection.commands.NotificationsCommand
 import io.github.toberocat.improvedfactions.modules.protection.listener.FireProtectionListener
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdownViolations
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdowns
+import io.github.toberocat.improvedfactions.modules.protection.notification.NotificationManager
 import io.github.toberocat.toberocore.command.CommandExecutor
 
 // Empezamos el módulo de proteccion con temporizadores y anti griefing
@@ -50,6 +52,7 @@ object ProtectionModule : BaseModule {
     // Agregamos comandos para reclamar la proteccion y hacer la auditoria
     override fun addCommands(plugin: ImprovedFactionsPlugin, executor: CommandExecutor) {
         executor.addChild(LockdownCommand(plugin, lockdownManager))
+        executor.addChild(NotificationsCommand())
     }
     fun protectionPair() = MODULE_NAME to this
 }

@@ -3,8 +3,11 @@ package io.github.toberocat.improvedfactions.modules.protection.notification
 import io.github.toberocat.improvedfactions.factions.Faction
 import org.bukkit.ChatColor
 import org.bukkit.Location
+import org.bukkit.entity.Player
 
-class NotificationManager {
+object NotificationManager {
+    private val preferences = NotificationPreferences()
+
     fun notifyExplosionBlocked(faction: Faction, explosionType: String, location: Location) {
         val message = StringBuilder().apply {
             append("${ChatColor.RED}[Explosion Blocked] ")
@@ -32,9 +35,20 @@ class NotificationManager {
 
     fun notifyFactionMembers(faction: Faction, eventType: String, details: String, message: String) {
         faction.members().forEach { member ->
+            val player = member.player() ?: return@forEach
+            if (eventType == "Fuego" && !preferences.isFireNotificationsEnabled(player)) {
+                return@forEach
+            }
             if (member.uniqueId == faction.members() || member.hasPermission("factions.members")) {
-                member.player()?.sendMessage(message)
+                player.sendMessage(message)
             }
         }
+    }
+
+    fun toggleFireNotifications(player: Player): Boolean {
+        val enabled = preferences.toggleFireNotifications(player)
+        val status = if (enabled) "${ChatColor.GREEN}activadas" else "${ChatColor.RED}desactivadas"
+        player.sendMessage("${ChatColor.YELLOW}Notificaciones de fuego $status")
+        return enabled
     }
 }
