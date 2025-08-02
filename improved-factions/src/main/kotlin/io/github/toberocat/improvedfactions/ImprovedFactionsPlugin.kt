@@ -31,7 +31,6 @@ import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import org.jetbrains.exposed.sql.Database
 
-
 /**
  * Created: 04.08.2023
  * @author Tobias Madlberger (Tobias)
@@ -123,7 +122,6 @@ open class ImprovedFactionsPlugin : JavaPlugin() {
         papiTransformer = { _, input -> input }
         logger.info("Papi not found. Skipping Papi registration")
     }
-
 
     fun loadConfig() {
         improvedFactionsConfig = ImprovedFactionsConfig.createConfig(this)

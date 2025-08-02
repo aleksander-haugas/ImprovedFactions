@@ -10,6 +10,7 @@ import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionL
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.FactionLockdowns
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.LockdownManager
 import io.github.toberocat.improvedfactions.modules.protection.lockdown.LockdownState
+import io.github.toberocat.improvedfactions.permissions.Permissions.FIRE_NOTIFY
 import io.github.toberocat.improvedfactions.user.factionUser
 import io.github.toberocat.improvedfactions.utils.command.CommandCategory
 import io.github.toberocat.improvedfactions.utils.command.CommandMeta
@@ -40,7 +41,7 @@ class LockdownCommand(
 
     override fun options(): Options = Options.getFromConfig(plugin, label) { options, _ ->
         options.cmdOpt(InFactionOption(true))
-        options.cmdOpt(FactionPermissionOption("lockdown.manage"))
+        options.cmdOpt(FactionPermissionOption(FIRE_NOTIFY))
     }
 
     override fun arguments(): Array<Argument<*>> = emptyArray()
@@ -59,7 +60,7 @@ class LockdownCommand(
 
         // Verificar que el jugador tenga el permiso necesario
         loggedTransaction {
-            if (!player.factionUser().hasPermission("lockdown.manage")) {
+            if (!player.factionUser().hasPermission(FIRE_NOTIFY)) {
                 player.sendMessage("${ChatColor.RED}No tienes permiso para gestionar el lockdown.")
                 return@loggedTransaction true
             }

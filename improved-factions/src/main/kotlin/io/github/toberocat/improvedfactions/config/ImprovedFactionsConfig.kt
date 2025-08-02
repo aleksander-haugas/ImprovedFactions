@@ -1,10 +1,7 @@
 package io.github.toberocat.improvedfactions.config
 
 import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin
-import io.github.toberocat.improvedfactions.claims.FactionClaims
-import io.github.toberocat.improvedfactions.utils.FileUtils
 import io.github.toberocat.improvedfactions.utils.getEnum
-import org.bukkit.Bukkit
 import org.bukkit.configuration.MemorySection
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration

@@ -51,7 +51,6 @@ dependencies {
     implementation(libs.kyori.adventure.platform.bukkit)
     implementation(libs.base64.itemstack)
     implementation(libs.bstats.bukkit)
-
     // Provided dependencies
     compileOnly(libs.placeholderapi)
     compileOnly(libs.dynmap.api)

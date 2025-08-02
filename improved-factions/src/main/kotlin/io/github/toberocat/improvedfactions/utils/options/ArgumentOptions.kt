@@ -4,10 +4,8 @@ import io.github.toberocat.toberocore.command.exceptions.CommandException
 import io.github.toberocat.toberocore.command.options.Option
 import io.github.toberocat.toberocore.command.options.PlayerOption
 import io.github.toberocat.toberocore.util.placeholder.PlaceholderBuilder
-import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.plugin.java.JavaPlugin
 
 abstract class ArgumentOptions(private val index: Int) : Option {
 
