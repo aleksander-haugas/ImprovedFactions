@@ -3,6 +3,7 @@ package io.github.toberocat.improvedfactions.modules
 import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin
 import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin.Companion.instance
 import io.github.toberocat.improvedfactions.modules.base.BaseModule
+import io.github.toberocat.improvedfactions.modules.bluemap.BluemapModule
 import io.github.toberocat.improvedfactions.modules.chat.ChatModule
 import io.github.toberocat.improvedfactions.modules.claimparticle.ClaimParticleModule
 import io.github.toberocat.improvedfactions.modules.display.DisplayModule
@@ -30,7 +31,8 @@ class ModuleManager(private val plugin: ImprovedFactionsPlugin) {
         RelationsModule.relationsModulePair(),
         ProtectionModule.protectionPair(),
         DisplayModule.displayPair(),
-        StreamChatModule.streamChatPair() // Agregar esta línea
+        StreamChatModule.streamChatPair(),
+        BluemapModule.bluemapPair()
     )
 
     init {
@@ -57,3 +59,4 @@ class ModuleManager(private val plugin: ImprovedFactionsPlugin) {
 
     inline fun <reified T> getModule(moduleName: String) = modules[moduleName] as? T ?: throw IllegalStateException()
 }
+

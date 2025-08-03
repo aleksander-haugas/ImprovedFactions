@@ -16,6 +16,7 @@ base64-itemstack-version = "1.0.0"
 bstats-bukkit-version = "3.0.2"
 placeholder-api-version = "2.11.6"
 dynmap-api-version = "3.7-beta-6"
+bluemap-api-version = "2.7.4"
 mockbukkit-version = "3.80.0"
 snakeyaml-version = "2.2"
 gson-version = "2.11.0"
@@ -48,6 +49,7 @@ base64-itemstack = { module = "dev.s7a:base64-itemstack", version.ref = "base64-
 bstats-bukkit = { module = "org.bstats:bstats-bukkit", version.ref = "bstats-bukkit-version" }
 placeholderapi = { module = "me.clip:placeholderapi", version.ref = "placeholder-api-version" }
 dynmap-api = { module = "us.dynmap:DynmapCoreAPI", version.ref = "dynmap-api-version" }
+bluemap-api = { module = "de.bluecolored:bluemap-api", version.ref = "bluemap-api-version" }
 mockbukkit = { module = "com.github.seeseemelk:MockBukkit-v1.20", version.ref = "mockbukkit-version" }
 snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml-version" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson-version" }

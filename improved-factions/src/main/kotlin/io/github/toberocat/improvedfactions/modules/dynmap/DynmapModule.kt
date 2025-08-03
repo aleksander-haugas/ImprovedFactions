@@ -1,24 +1,18 @@
 package io.github.toberocat.improvedfactions.modules.dynmap
 
 import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin
-import io.github.toberocat.improvedfactions.claims.FactionClaim
-import io.github.toberocat.improvedfactions.config.ImprovedFactionsConfig
 import io.github.toberocat.improvedfactions.modules.base.BaseModule
 import io.github.toberocat.improvedfactions.modules.dynmap.config.DynmapModuleConfig
 import io.github.toberocat.improvedfactions.modules.dynmap.handles.DummyFactionDynmapModuleHandles
 import io.github.toberocat.improvedfactions.modules.dynmap.handles.FactionDynmapModuleHandle
 import io.github.toberocat.improvedfactions.modules.dynmap.impl.FactionDynmapModuleHandleImpl
-import io.github.toberocat.toberocore.command.CommandExecutor
 import org.bukkit.Bukkit
 import org.dynmap.DynmapCommonAPI
 import org.dynmap.DynmapCommonAPIListener
-import org.dynmap.markers.AreaMarker
-import org.dynmap.markers.MarkerSet
 
 class DynmapModule : BaseModule {
     override val moduleName = MODULE_NAME
     override var isEnabled = false
-
 
     var dynmapModuleHandle: FactionDynmapModuleHandle = DummyFactionDynmapModuleHandles()
 
@@ -34,6 +28,7 @@ class DynmapModule : BaseModule {
         )
     }
 
+    // Esto debería de recargar el archivo de configuracion del plugin
     override fun reloadConfig(plugin: ImprovedFactionsPlugin) {
         config.reload(plugin.config)
     }
