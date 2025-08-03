@@ -9,7 +9,6 @@ import io.github.toberocat.toberocore.command.PlayerSubCommand
 import io.github.toberocat.toberocore.command.arguments.Argument
 import io.github.toberocat.toberocore.command.options.Options
 import org.bukkit.entity.Player
-import java.util.*
 
 @CommandMeta(
     description = "chat.command.spy.description",

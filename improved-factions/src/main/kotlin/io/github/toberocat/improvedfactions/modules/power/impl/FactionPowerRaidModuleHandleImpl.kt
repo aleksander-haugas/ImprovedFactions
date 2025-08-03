@@ -4,7 +4,6 @@ import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin
 import io.github.toberocat.improvedfactions.claims.FactionClaim
 import io.github.toberocat.improvedfactions.claims.clustering.cluster.Cluster
 import io.github.toberocat.improvedfactions.claims.clustering.cluster.FactionCluster
-import io.github.toberocat.improvedfactions.claims.clustering.position.ChunkPosition
 import io.github.toberocat.improvedfactions.database.DatabaseManager.loggedTransaction
 import io.github.toberocat.improvedfactions.exceptions.NotEnoughPowerForClaimException
 import io.github.toberocat.improvedfactions.factions.Faction

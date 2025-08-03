@@ -8,8 +8,8 @@ group = "io.github.toberocat.improved-factions"
 version = "2.3.0"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 repositories {
@@ -21,6 +21,7 @@ repositories {
     maven("https://repo.mikeprimm.com/")
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.bluecolored.de/releases")
 }
 
 dependencies {
@@ -51,10 +52,10 @@ dependencies {
     implementation(libs.kyori.adventure.platform.bukkit)
     implementation(libs.base64.itemstack)
     implementation(libs.bstats.bukkit)
-
     // Provided dependencies
     compileOnly(libs.placeholderapi)
     compileOnly(libs.dynmap.api)
+    compileOnly(libs.bluemap.api)
 
     // Test dependencies
     testImplementation(libs.kotlin.test.junit)
@@ -96,7 +97,7 @@ tasks {
 }
 
 kotlin {
-    jvmToolchain(17)
+    jvmToolchain(21)
 }
 
 publishing {

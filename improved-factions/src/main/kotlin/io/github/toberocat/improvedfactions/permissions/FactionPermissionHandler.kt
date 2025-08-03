@@ -19,6 +19,11 @@ object Permissions {
     val SET_JOIN_TYPE = "set-join-type".registerAsPermission(Material.IRON_DOOR)
     val MANAGE_RELATION = "manage-relation".registerAsPermission(Material.IRON_SWORD)
 
+    // 3 nuevos permisos solo para notificaciones
+    val FIRE_NOTIFY = "fire-notify".registerAsPermission(Material.SANDSTONE)
+    val IN_ATTACK_NOTIFY = "in-attack-notify".registerAsPermission(Material.GOLDEN_AXE)
+    val OUT_ATTACK_NOTIFY = "out-attack-notify".registerAsPermission(Material.IRON_AXE)
+
     fun String.registerAsPermission(material: Material): String {
         knownPermissions[this] = PermissionHolder(material)
         return this

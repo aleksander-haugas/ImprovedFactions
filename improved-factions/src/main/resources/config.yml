@@ -32,6 +32,10 @@ modules:
   claim-particles: true
   # This module will allow factions to create alliances with other factions and form wars
   relations: true
+  # This module will enable or disable griefing in claims that ere protected
+  protection: true
+  streamchat: true
+  bluemap: true
 
 #
 # -------- { Base Module Settings } --------
@@ -130,6 +134,29 @@ factions:
       breach-progress: 1.0 # This is the progress an intruder adds to the overall siege's progress when joining it
       resistance-progress: .5 # This is the amount of progress a defender is blocking by joining the defense of a siege
       recovery-speed: 1.0 # Define how fast the claim recovers its integrity
+  #
+  # -------- { Protection Module Settings } --------
+  # These settings only apply when you enabled this module.
+  #
+  # This section represents the constants mentioned in the pve module documentation.
+  # If you have no clue what you're doing here, a good place to start looking would be the pve module documentation
+  protection-settings: # Una nueva sección para la configuración de tu módulo
+    prevent-creeper-griefing-in-claims: true
+    prevent-tnt-griefing-in-claims: true
+    prevent-creeper-griefing-in-warzone: true
+    prevent-tnt-griefing-in-warzone: true
+    prevent-creeper-griefing-in-safezone: true
+    prevent-tnt-griefing-in-safezone: true
+    prevent-creeper-griefing-in-wilderness: false
+    prevent-tnt-griefing-in-wilderness: false
+    lockdown-supervision-period: 180
+    lockdown-allowed-durations:
+      - 3600
+      - 10800
+      - 43200
+      - 86400
+      - 259200
+      - 604800
 
   #
   # -------- { Dynmap Module Settings } --------
@@ -422,3 +449,20 @@ default-placeholders:
 
 # This option decides if what kind of notification the players will receive when a certain event happens (Teleport, Territory change, etc)
 event-display-location: "TITLE" # Options are: TITLE, CHAT, ACTIONBAR
+
+streamchat:
+  port: 8090
+  max_message_length: 256
+  rate_limit:
+    messages_per_minute: 10
+    reset_after_seconds: 60
+  allowed_ips:
+    - "127.0.0.1"
+    - "localhost"
+
+
+  bluemap:
+    settings:
+      border-color: "#00FF00"
+      fill-color: "#AAFFAA"
+      hover-text: "<faction> — <owner>"

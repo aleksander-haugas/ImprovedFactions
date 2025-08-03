@@ -5,7 +5,6 @@ import io.github.toberocat.improvedfactions.database.DatabaseManager.loggedTrans
 import io.github.toberocat.improvedfactions.translation.sendLocalized
 import io.github.toberocat.improvedfactions.user.factionUser
 import io.github.toberocat.improvedfactions.utils.arguments.OfflinePlayerArgument
-import io.github.toberocat.improvedfactions.utils.arguments.entity.FactionArgument
 import io.github.toberocat.improvedfactions.utils.command.CommandCategory
 import io.github.toberocat.improvedfactions.utils.command.CommandMeta
 import io.github.toberocat.improvedfactions.utils.options.PlayerNameOption

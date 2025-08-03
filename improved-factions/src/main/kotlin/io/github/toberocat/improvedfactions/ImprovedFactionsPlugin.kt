@@ -3,7 +3,6 @@ package io.github.toberocat.improvedfactions
 import com.jeff_media.updatechecker.UpdateCheckSource
 import com.jeff_media.updatechecker.UpdateChecker
 import com.jeff_media.updatechecker.UserAgentBuilder
-import io.github.toberocat.improvedfactions.claims.FactionClaims
 import io.github.toberocat.improvedfactions.claims.clustering.detector.ClaimClusterDetector
 import io.github.toberocat.improvedfactions.claims.clustering.query.DatabaseClaimQueryProvider
 import io.github.toberocat.improvedfactions.commands.FactionCommandExecutor
@@ -27,12 +26,10 @@ import io.github.toberocat.improvedfactions.utils.threadPool
 import io.github.toberocat.improvedfactions.zone.ZoneHandler
 import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
-import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
 import org.jetbrains.exposed.sql.Database
-
 
 /**
  * Created: 04.08.2023
@@ -125,7 +122,6 @@ open class ImprovedFactionsPlugin : JavaPlugin() {
         papiTransformer = { _, input -> input }
         logger.info("Papi not found. Skipping Papi registration")
     }
-
 
     fun loadConfig() {
         improvedFactionsConfig = ImprovedFactionsConfig.createConfig(this)

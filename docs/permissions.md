@@ -49,6 +49,9 @@ Find the original permissions in the [plugin.yml](../improved-factions-base/src/
 | factions.zone.unclaim                   | op      |
 | factions.reload                         | op      |
 | factions.power.set                      | op      |
+| factions.notifications.fire             | op      |
+| factions.lockdown.start                 | op      |
+| factions.lockdown.activate              | op      |
 | factions.bypass.usage-limits.*          | op      |
 | factions.bypass.usage-limits.wilderness | op      |
 

@@ -16,6 +16,7 @@ import io.github.toberocat.improvedfactions.user.factionUser
 import io.github.toberocat.toberocore.command.CommandExecutor
 import org.bukkit.Location
 import org.bukkit.entity.Player
+import io.github.toberocat.improvedfactions.modules.home.listener.HomeCompassListener
 
 object HomeModule : BaseModule {
     const val MODULE_NAME = "home"
@@ -24,8 +25,15 @@ object HomeModule : BaseModule {
 
     private var homeModuleHandle: HomeModuleHandle = DummyHomeModuleHandle()
 
+    lateinit var plugin: ImprovedFactionsPlugin
+        private set
+
     override fun onEnable(plugin: ImprovedFactionsPlugin) {
+        this.plugin = plugin
         homeModuleHandle = HomeModuleHandleImpl()
+
+        // Registrar el nuevo listener
+        plugin.server.pluginManager.registerEvents(HomeCompassListener(), plugin)
     }
 
     override fun onLoadDatabase(plugin: ImprovedFactionsPlugin) {

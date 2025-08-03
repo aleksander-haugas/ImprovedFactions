@@ -12,15 +12,12 @@ import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import java.util.*
-import java.nio.charset.StandardCharsets;
 import kotlin.reflect.full.findAnnotations
 
 inline fun <T, R> T.compute(computeBlock: (T) -> R) = computeBlock(this)
 
 fun Player.toAudience(): Audience = ImprovedFactionsPlugin.instance.adventure.player(this)
-
 fun UUID.toOfflinePlayer(): OfflinePlayer = Bukkit.getOfflinePlayer(this)
-
 fun SubCommand.getMeta(): CommandMeta? = this::class.findAnnotations(CommandMeta::class).firstOrNull()
 
 fun String.hasOfflinePlayerByName() = loggedTransaction {

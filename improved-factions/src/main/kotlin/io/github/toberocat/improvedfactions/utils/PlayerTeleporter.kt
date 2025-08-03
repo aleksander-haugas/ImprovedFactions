@@ -2,7 +2,6 @@ package io.github.toberocat.improvedfactions.utils
 
 import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin
 import io.github.toberocat.improvedfactions.translation.LocalizationKey
-import io.github.toberocat.improvedfactions.translation.getLocalized
 import io.github.toberocat.improvedfactions.translation.sendLocalized
 import io.github.toberocat.improvedfactions.utils.particles.TeleportParticles
 import net.kyori.adventure.title.Title
@@ -11,7 +10,6 @@ import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import java.time.Duration
 import kotlin.math.ceil
-import kotlin.math.floor
 
 class PlayerTeleporter(
     private val plugin: ImprovedFactionsPlugin,
@@ -29,7 +27,6 @@ class PlayerTeleporter(
         (standStillMs * 0.02).toInt(),
         { player.location }
     )
-
 
     fun startTeleport() {
         audience.sendTitlePart(

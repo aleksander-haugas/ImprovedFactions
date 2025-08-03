@@ -1,7 +1,6 @@
 package io.github.toberocat.improvedfactions.modules.chat.commands
 
 import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin
-import io.github.toberocat.improvedfactions.modules.chat.ChatMode
 import io.github.toberocat.improvedfactions.modules.chat.ChatModule
 import io.github.toberocat.improvedfactions.modules.chat.ChatModule.sendFactionChat
 import io.github.toberocat.improvedfactions.modules.chat.ChatModule.toggleChatMode

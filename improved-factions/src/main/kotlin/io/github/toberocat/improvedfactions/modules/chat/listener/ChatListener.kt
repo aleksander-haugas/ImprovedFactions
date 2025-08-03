@@ -3,7 +3,6 @@ package io.github.toberocat.improvedfactions.modules.chat.listener
 import io.github.toberocat.improvedfactions.modules.chat.ChatMode
 import io.github.toberocat.improvedfactions.modules.chat.config.ChatModuleConfig
 import io.github.toberocat.improvedfactions.modules.chat.handles.ChatModuleHandle
-import io.github.toberocat.improvedfactions.translation.sendLocalized
 import io.github.toberocat.improvedfactions.utils.toOfflinePlayer
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

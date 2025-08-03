@@ -3,13 +3,17 @@ package io.github.toberocat.improvedfactions.modules
 import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin
 import io.github.toberocat.improvedfactions.ImprovedFactionsPlugin.Companion.instance
 import io.github.toberocat.improvedfactions.modules.base.BaseModule
+import io.github.toberocat.improvedfactions.modules.bluemap.BluemapModule
 import io.github.toberocat.improvedfactions.modules.chat.ChatModule
 import io.github.toberocat.improvedfactions.modules.claimparticle.ClaimParticleModule
+import io.github.toberocat.improvedfactions.modules.display.DisplayModule
 import io.github.toberocat.improvedfactions.modules.dynmap.DynmapModule
 import io.github.toberocat.improvedfactions.modules.gui.GuiModule
 import io.github.toberocat.improvedfactions.modules.home.HomeModule
 import io.github.toberocat.improvedfactions.modules.power.PowerRaidsModule
+import io.github.toberocat.improvedfactions.modules.protection.ProtectionModule
 import io.github.toberocat.improvedfactions.modules.relations.RelationsModule
+import io.github.toberocat.improvedfactions.modules.streamchat.StreamChatModule
 import io.github.toberocat.improvedfactions.modules.wilderness.WildernessModule
 import io.github.toberocat.toberocore.command.CommandExecutor
 import org.bukkit.OfflinePlayer
@@ -24,7 +28,11 @@ class ModuleManager(private val plugin: ImprovedFactionsPlugin) {
         ChatModule.chatPair(),
         GuiModule.guiPair(),
         ClaimParticleModule.claimParticlesPair(),
-        RelationsModule.relationsModulePair()
+        RelationsModule.relationsModulePair(),
+        ProtectionModule.protectionPair(),
+        DisplayModule.displayPair(),
+        StreamChatModule.streamChatPair(),
+        BluemapModule.bluemapPair()
     )
 
     init {
@@ -51,3 +59,4 @@ class ModuleManager(private val plugin: ImprovedFactionsPlugin) {
 
     inline fun <reified T> getModule(moduleName: String) = modules[moduleName] as? T ?: throw IllegalStateException()
 }
+

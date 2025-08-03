@@ -2,11 +2,16 @@ name: ImprovedFactions
 version: '${version}'
 main: io.github.toberocat.improvedfactions.ImprovedFactionsPlugin
 api-version: '1.18'
-softdepend: [ PlaceholderAPI, dynmap, GuiEngine ]
+softdepend: [ PlaceholderAPI, dynmap, GuiEngine, bluemap ]
 author: Tobero
 commands:
   factions:
-    aliases: [ "f", "fac", "faction" ]
+    aliases: [ "f", "faction" ]
+  chattoken:
+    description: Genera un token para el chat stream
+    usage: /<command>
+    permission: improvedfactions.streamchat.token
+
 permissions:
   factions.updatechecker:
     default: op
@@ -107,4 +112,7 @@ permissions:
   factions.bypass.usage-limits.*:
     default: op
   factions.bypass.usage-limits.wilderness:
+    default: op
+  factions.streamchat.token:
+    description: Permite generar tokens para el chat stream
     default: op
