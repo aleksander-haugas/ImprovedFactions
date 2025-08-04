@@ -5,16 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad9c7d4c-34f8-4c4a-9806-e72e98556779" name="Changes" comment="Added config option to hide wilderness title">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/Build_Plugin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/runConfigurations/Build_Plugin.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/permissions.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/permissions.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/improved-factions/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/improved-factions/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/gradle/libs.versions.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/ModuleManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/ModuleManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/dynmap/DynmapModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/dynmap/DynmapModule.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/resources/config.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/BluemapModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/BluemapModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/handles/FactionBluemapModuleHandle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/handles/FactionBluemapModuleHandle.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/impl/FactionBluemapModuleHandleImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/impl/FactionBluemapModuleHandleImpl.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,43 +111,43 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Docker.docker-compose.yml: Compose Deployment.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "Gradle.Build Plugin.executor": "Run",
-    "Gradle.Build improved-factions.executor": "Run",
-    "Gradle.Download Sources.executor": "Run",
-    "Gradle.HomeCommandTest.executor": "Run",
-    "Gradle.Test Plugin.executor": "Run",
-    "Gradle.TitleTest.Test title on enter.executor": "Debug",
-    "Gradle.improved-factions [build].executor": "Run",
-    "Gradle.improved-factions [test].executor": "Run",
-    "Remote JVM Debug.Debug Server.executor": "Debug",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "feature/mmorpg-expansion",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Aleksander/Documents/GitHub/ImprovedFactions/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Problems",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.35287356",
-    "settings.editor.selected.configurable": "ml.llm.LLMThirdPartyAiProvidersConfigurable",
-    "settings.editor.splitter.proportion": "0.25428858",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Docker.docker-compose.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Gradle.Build Plugin.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build improved-factions.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Download Sources.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.HomeCommandTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Test Plugin.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.TitleTest.Test title on enter.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.improved-factions [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.improved-factions [test].executor&quot;: &quot;Run&quot;,
+    &quot;Remote JVM Debug.Debug Server.executor&quot;: &quot;Debug&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/mmorpg-expansion&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Aleksander/Documents/GitHub/ImprovedFactions/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.35287356&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMThirdPartyAiProvidersConfigurable&quot;,
+    &quot;settings.editor.splitter.proportion&quot;: &quot;0.25428858&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Aleksander\Documents\GitHub\ImprovedFactions\improved-factions\src\main\kotlin\io\github\toberocat\improvedfactions\modules" />
@@ -236,7 +232,11 @@
       <workItem from="1754224026159" duration="527000" />
       <workItem from="1754224562929" duration="546000" />
       <workItem from="1754225118043" duration="6993000" />
-      <workItem from="1754232759661" duration="8685000" />
+      <workItem from="1754232759661" duration="33585000" />
+      <workItem from="1754311883243" duration="3657000" />
+      <workItem from="1754315557843" duration="3943000" />
+      <workItem from="1754320649206" duration="2649000" />
+      <workItem from="1754323311280" duration="4441000" />
     </task>
     <task id="LOCAL-00001" summary="Migrated to gradle instead of maven">
       <option name="closed" value="true" />

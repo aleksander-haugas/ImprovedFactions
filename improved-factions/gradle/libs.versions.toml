@@ -52,6 +52,7 @@ dynmap-api = { module = "us.dynmap:DynmapCoreAPI", version.ref = "dynmap-api-ver
 bluemap-api = { module = "de.bluecolored:bluemap-api", version.ref = "bluemap-api-version" }
 mockbukkit = { module = "com.github.seeseemelk:MockBukkit-v1.20", version.ref = "mockbukkit-version" }
 snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml-version" }
+flow-math = { module = "com.flowpowered:flow-math", version = "1.0.3" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson-version" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-classic-version" }
 [plugins]

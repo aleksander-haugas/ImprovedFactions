@@ -33,7 +33,6 @@ dependencies {
     implementation(libs.exposed.jdbc)
     implementation(libs.exposed.dao)
     implementation(libs.exposed.kotlin.datetime)
-
     // Jackson
     implementation(libs.jackson.core)
     implementation(libs.jackson.databind)
@@ -52,10 +51,12 @@ dependencies {
     implementation(libs.kyori.adventure.platform.bukkit)
     implementation(libs.base64.itemstack)
     implementation(libs.bstats.bukkit)
+
     // Provided dependencies
     compileOnly(libs.placeholderapi)
     compileOnly(libs.dynmap.api)
     compileOnly(libs.bluemap.api)
+    compileOnly(libs.flow.math)
 
     // Test dependencies
     testImplementation(libs.kotlin.test.junit)
