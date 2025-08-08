@@ -5,10 +5,8 @@ import io.github.toberocat.improvedfactions.claims.FactionClaim
 import io.github.toberocat.improvedfactions.claims.clustering.cluster.Cluster
 import io.github.toberocat.improvedfactions.claims.clustering.cluster.FactionCluster
 import io.github.toberocat.improvedfactions.claims.clustering.cluster.ZoneCluster
-import io.github.toberocat.improvedfactions.claims.clustering.position.ChunkPosition
 import io.github.toberocat.improvedfactions.claims.clustering.position.WorldPosition
 import io.github.toberocat.improvedfactions.factions.Faction
-import io.github.toberocat.improvedfactions.factions.FactionHandler
 import io.github.toberocat.improvedfactions.modules.dynmap.config.DynmapColorConfig
 import io.github.toberocat.improvedfactions.modules.dynmap.config.DynmapModuleConfig
 import io.github.toberocat.improvedfactions.modules.dynmap.handles.FactionDynmapModuleHandle

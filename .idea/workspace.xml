@@ -5,12 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad9c7d4c-34f8-4c4a-9806-e72e98556779" name="Changes" comment="Added config option to hide wilderness title">
+      <change afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/commands/BluemapPlayerControl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/handles/DummyHandles.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/impl/BluemapModuleHandleImpl.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/impl/BluemapVector2.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/improved-factions/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/improved-factions/gradle/libs.versions.toml" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/gradle/libs.versions.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/BluemapModule.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/BluemapModule.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/handles/FactionBluemapModuleHandle.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/handles/FactionBluemapModuleHandle.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/impl/FactionBluemapModuleHandleImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/impl/FactionBluemapModuleHandleImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/config/BluemapModuleConfig.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/config/BluemapModuleConfig.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/handles/DummyFactionBluemapModuleHandles.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/scoreboard/ScoreboardModule.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/bluemap/impl/FactionBluemapModuleHandleImpl.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/dynmap/impl/FactionDynmapModuleHandleImpl.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/dynmap/impl/FactionDynmapModuleHandleImpl.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/home/commands/HomeSetCommand.kt" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/kotlin/io/github/toberocat/improvedfactions/modules/home/commands/HomeSetCommand.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/improved-factions/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/improved-factions/src/main/resources/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,6 +246,8 @@
       <workItem from="1754315557843" duration="3943000" />
       <workItem from="1754320649206" duration="2649000" />
       <workItem from="1754323311280" duration="4441000" />
+      <workItem from="1754338193931" duration="24611000" />
+      <workItem from="1754562347852" duration="28381000" />
     </task>
     <task id="LOCAL-00001" summary="Migrated to gradle instead of maven">
       <option name="closed" value="true" />

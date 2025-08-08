@@ -62,6 +62,7 @@ factions:
         - send-invites
         - view-power
         - teleport-home
+        - notifications-fire
     Elder:
       priority: 10
       default-permissions:
@@ -69,6 +70,7 @@ factions:
         - manage-claims
         - view-power
         - teleport-home
+        - notifications-fire
     Admin:
       priority: 100
       default-permissions:
@@ -82,6 +84,7 @@ factions:
         - set-home
         - set-join-type
         - manage-relation
+        - notifications-fire
     Owner:
       priority: 1000
       default-permissions:
@@ -98,6 +101,7 @@ factions:
         - set-home
         - set-join-type
         - manage-relation
+        - notifications-fire
 
   #
   # -------- { Power Raid Module Settings } --------
@@ -439,7 +443,8 @@ performance:
 blacklisted-worlds: [ ]
 whitelisted-worlds: [ ]
 
-# The default values removed for a papi placeholder if no value has been provided. For example, when a player doesn't have a faction, the faction name will be replaced with this value
+# The default values removed for a papi placeholder if no value has been provided.
+# For example, when a player doesn't have a faction, the faction name will be replaced with this value
 default-placeholders:
   name: "" # The default value for %faction_name%
   owner: "" # The default value for %faction_owner%
@@ -450,19 +455,47 @@ default-placeholders:
 # This option decides if what kind of notification the players will receive when a certain event happens (Teleport, Territory change, etc)
 event-display-location: "TITLE" # Options are: TITLE, CHAT, ACTIONBAR
 
+
+# -------- { StreamChat Module Settings } --------
+# These settings only apply when you enabled this module.
+# This module allows you to get messages from kick.com in your minecraft chat
+# to get work on your minecraft world write in your chat /chattoken
+# That chat token generated you need to use in your client and you are able
+# to reciebe messages from kick.com directly in your minecraft world
+
 streamchat:
-  port: 8090
-  max_message_length: 256
+  port: 8090 # Streaming server port
+  max_message_length: 256 # max message length
   rate_limit:
-    messages_per_minute: 10
-    reset_after_seconds: 60
-  allowed_ips:
+    messages_per_minute: 10 # Max messages per seconds (delay)
+    reset_after_seconds: 60 # Sets the seconds for delay
+  allowed_ips: # Allow income connections from clients.
     - "127.0.0.1"
     - "localhost"
 
 
+  # -------- { Bluemap Module Settings } --------
+  # These settings only apply when you enabled this module.
+
   bluemap:
-    settings:
-      border-color: "#00FF00"
-      fill-color: "#AAFFAA"
-      hover-text: "<faction> — <owner>"
+    claim-colors:
+      __default__:
+        color: "FF0000" # The color of the claim on the bluemap. This is the color in hex. This can be overridden by the values below
+        opacity: 0.3 # The opacity of the claim on the bluemap. 0 - 1 This can be overridden by the values below
+      safezone:
+        color: "00FFFF"
+        opacity: 0.3
+      warzone:
+        color: "8B0000"
+        opacity: 0.3
+      unmanaged:
+        color: "FFFF00"
+        opacity: 0.3
+    show-zones: true # This will show the zones on the bluemap. If set to false, the zones will be hidden, useful for servers where zones may already get rendered by a different plugin
+    show-homes: true # This will show the homes of factions on the bluemap if the homes module is enabled. If set to false, the homes will be hidden
+    color-faction-claims: true
+    marker-set:
+      id: "factions" # The id of the marker set on the bluemap. When changed, the old marker has to be removed manually
+      display-name: "Factions" # The display name of the marker set
+      layer-priority: 10 # The priority of the layer. Higher values will be displayed on top of lower values
+      hidden-by-default: true # If set to true, the layer will be hidden by default

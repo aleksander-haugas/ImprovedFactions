@@ -11,6 +11,10 @@ commands:
     description: Genera un token para el chat stream
     usage: /<command>
     permission: improvedfactions.streamchat.token
+  bmpc:
+    description: Controla la visibilidad de jugadores en BlueMap
+    usage: /<command>
+    permission: bluemapplayercontrol.use
 
 permissions:
   factions.updatechecker:
@@ -115,4 +119,12 @@ permissions:
     default: op
   factions.streamchat.token:
     description: Permite generar tokens para el chat stream
+    default: true
+  factions.notifications.fire:
+    default: true
+  bluemapplayercontrol.use:
+    description: Permite usar el comando /bmpc
+    default: true
+  bluemapplayercontrol.others:
+    description: Permite usar el comando /bmpc
     default: op
