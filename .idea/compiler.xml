@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="ImprovedFactions.code-generation" target="21" />
+      <module name="ImprovedFactions.code-generation.main" target="21" />
+      <module name="ImprovedFactions.code-generation.test" target="21" />
+      <module name="ImprovedFactions.shared" target="17" />
+      <module name="ImprovedFactions.shared.main" target="17" />
+      <module name="ImprovedFactions.shared.test" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

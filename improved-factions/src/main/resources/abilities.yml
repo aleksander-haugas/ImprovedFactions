@@ -1,0 +1,341 @@
+# ============================
+# Sistema de Habilidades RPG
+# ============================
+
+abilities:
+
+  # --------------------------
+  # Guerrero
+  # --------------------------
+  PowerStrike:
+    display_name: "💥 Golpe Poderoso"
+    description: "Un ataque físico que inflige 150% de daño."
+    type: "physical"
+    mana_cost: 10
+    cooldown: 5
+    damage_multiplier: 1.5
+
+  WarCry:
+    display_name: "📢 Grito de Guerra"
+    description: "Aumenta la defensa de los aliados cercanos durante 10s."
+    type: "buff"
+    mana_cost: 20
+    cooldown: 30
+    effect: "DEFENSE_UP"
+    duration: 10
+    radius: 10
+
+  Whirlwind:
+    display_name: "🌪️ Corte Giratorio"
+    description: "Un golpe circular que daña a todos los enemigos cercanos."
+    type: "aoe"
+    mana_cost: 30
+    cooldown: 15
+    radius: 5
+    damage_multiplier: 1.2
+
+  ShieldWall:
+    display_name: "🛡️ Muro de Escudos"
+    description: "Reduce el daño recibido un 50% durante 5s."
+    type: "buff"
+    mana_cost: 25
+    cooldown: 40
+    effect: "DAMAGE_REDUCTION"
+    reduction_percent: 50
+    duration: 5
+
+  # --------------------------
+  # Mago
+  # --------------------------
+  Fireball:
+    display_name: "🔥 Bola de Fuego"
+    description: "Lanza un proyectil que explota al impactar."
+    type: "magic"
+    mana_cost: 25
+    cooldown: 8
+    damage: 40
+    radius: 3
+
+  IceBolt:
+    display_name: "❄️ Rayo de Hielo"
+    description: "Congela al enemigo durante 3s."
+    type: "magic"
+    mana_cost: 20
+    cooldown: 10
+    damage: 20
+    freeze_duration: 3
+
+  ArcaneStorm:
+    display_name: "⚡ Tormenta Arcana"
+    description: "Invoca rayos mágicos en área durante 5s."
+    type: "aoe"
+    mana_cost: 50
+    cooldown: 25
+    damage_per_tick: 15
+    duration: 5
+    radius: 6
+
+  Teleport:
+    display_name: "✨ Teletransporte"
+    description: "Se mueve instantáneamente a corta distancia."
+    type: "utility"
+    mana_cost: 35
+    cooldown: 20
+    max_distance: 15
+
+  # --------------------------
+  # Arquero
+  # --------------------------
+  RapidShot:
+    display_name: "🏹 Disparo Rápido"
+    description: "Dispara 3 flechas rápidamente."
+    type: "ranged"
+    mana_cost: 15
+    cooldown: 7
+    arrows: 3
+
+  PoisonArrow:
+    display_name: "☠️ Flecha Venenosa"
+    description: "Inflige veneno al objetivo durante 6s."
+    type: "ranged"
+    mana_cost: 20
+    cooldown: 12
+    damage: 25
+    poison_duration: 6
+
+  ExplosiveArrow:
+    display_name: "💥 Flecha Explosiva"
+    description: "Explota al impactar, dañando en área."
+    type: "ranged"
+    mana_cost: 30
+    cooldown: 18
+    damage: 35
+    radius: 4
+
+  EagleEye:
+    display_name: "👁️ Vista de Águila"
+    description: "Aumenta precisión y visión nocturna durante 10s."
+    type: "buff"
+    mana_cost: 25
+    cooldown: 40
+    duration: 10
+
+  # --------------------------
+  # Asesino
+  # --------------------------
+  Backstab:
+    display_name: "🗡️ Golpe Crítico"
+    description: "Inflige 300% de daño si se ataca por la espalda."
+    type: "physical"
+    mana_cost: 20
+    cooldown: 6
+    damage_multiplier: 3.0
+
+  SmokeBomb:
+    display_name: "💨 Bomba de Humo"
+    description: "Se vuelve invisible durante 5s."
+    type: "utility"
+    mana_cost: 25
+    cooldown: 30
+    duration: 5
+
+  BladeDance:
+    display_name: "⚔️ Danza de Cuchillas"
+    description: "Ataca rápidamente a todos los enemigos cercanos."
+    type: "aoe"
+    mana_cost: 35
+    cooldown: 20
+    hits: 5
+    radius: 4
+
+  ShadowStep:
+    display_name: "🌑 Paso Sombrío"
+    description: "Se teletransporta detrás de un enemigo."
+    type: "utility"
+    mana_cost: 30
+    cooldown: 15
+    max_distance: 10
+
+  # --------------------------
+  # Llamador de Sombras
+  # --------------------------
+  SummonUndead:
+    display_name: "☠️ Invocar No-Muerto"
+    description: "Invoca un esqueleto temporal que lucha contigo."
+    type: "summon"
+    mana_cost: 40
+    cooldown: 45
+    duration: 20
+
+  LifeDrain:
+    display_name: "🩸 Drenaje de Vida"
+    description: "Roba vida al enemigo y la transfiere al usuario."
+    type: "magic"
+    mana_cost: 25
+    cooldown: 12
+    damage: 20
+    heal_percent: 50
+
+  BonePrison:
+    display_name: "🦴 Prisión de Huesos"
+    description: "Atrapado en huesos mágicos por 4s."
+    type: "control"
+    mana_cost: 35
+    cooldown: 25
+    duration: 4
+
+  DarkPact:
+    display_name: "💀 Pacto Oscuro"
+    description: "Sacrifica un 20% de vida para recuperar maná."
+    type: "utility"
+    mana_cost: 0
+    cooldown: 30
+    health_sacrifice_percent: 20
+    mana_restore: 50
+
+  # --------------------------
+  # Explorador
+  # --------------------------
+  SilentStep:
+    display_name: "👣 Paso Silencioso"
+    description: "Reduce el ruido al caminar y evita trampas."
+    type: "utility"
+    mana_cost: 15
+    cooldown: 20
+    duration: 10
+
+  Camouflage:
+    display_name: "🌿 Camuflaje"
+    description: "Se mimetiza con el entorno (invisibilidad parcial)."
+    type: "utility"
+    mana_cost: 25
+    cooldown: 25
+    duration: 8
+
+  MarkTarget:
+    display_name: "🎯 Objetivo Marcado"
+    description: "Marca a un enemigo y muestra su ubicación a los aliados."
+    type: "debuff"
+    mana_cost: 20
+    cooldown: 20
+    duration: 10
+
+  EscapeGrapple:
+    display_name: "🪢 Garfio de Escape"
+    description: "Usa un gancho para huir rápidamente."
+    type: "utility"
+    mana_cost: 30
+    cooldown: 25
+    max_distance: 15
+
+  # --------------------------
+  # Curandero
+  # --------------------------
+  HealingLight:
+    display_name: "✨ Luz Sanadora"
+    description: "Cura a un aliado."
+    type: "heal"
+    mana_cost: 20
+    cooldown: 8
+    heal: 30
+
+  GroupHeal:
+    display_name: "🌟 Sanación de Grupo"
+    description: "Cura a todos los aliados cercanos."
+    type: "heal"
+    mana_cost: 40
+    cooldown: 20
+    heal: 20
+    radius: 6
+
+  Purify:
+    display_name: "🕊️ Purificar"
+    description: "Elimina efectos negativos de un aliado."
+    type: "utility"
+    mana_cost: 25
+    cooldown: 15
+
+  DivineBarrier:
+    display_name: "🛡️ Barrera Divina"
+    description: "Escudo protector que absorbe daño durante 5s."
+    type: "buff"
+    mana_cost: 35
+    cooldown: 30
+    absorb_amount: 50
+    duration: 5
+
+  # --------------------------
+  # Guardián Natural
+  # --------------------------
+  EntangleRoots:
+    display_name: "🌱 Raíces Enredadoras"
+    description: "Inmoviliza enemigos durante 3s."
+    type: "control"
+    mana_cost: 25
+    cooldown: 15
+    radius: 4
+    duration: 3
+
+  SummonWolf:
+    display_name: "🐺 Invocar Lobo"
+    description: "Invoca un lobo aliado temporal."
+    type: "summon"
+    mana_cost: 35
+    cooldown: 40
+    duration: 25
+
+  NaturesBlessing:
+    display_name: "🌿 Bendición de la Naturaleza"
+    description: "Aumenta la regeneración de vida de los aliados."
+    type: "buff"
+    mana_cost: 30
+    cooldown: 25
+    duration: 10
+    regen_per_tick: 5
+
+  StormCall:
+    display_name: "⛈️ Llamado de la Tormenta"
+    description: "Invoca un rayo sobre el enemigo."
+    type: "magic"
+    mana_cost: 40
+    cooldown: 20
+    damage: 50
+
+  # --------------------------
+  # Enano
+  # --------------------------
+  Earthquake:
+    display_name: "🌋 Terremoto"
+    description: "Golpea el suelo causando daño en área."
+    type: "aoe"
+    mana_cost: 35
+    cooldown: 30
+    radius: 5
+    damage: 40
+
+  StoneSkin:
+    display_name: "🪨 Piel de Piedra"
+    description: "Aumenta un 50% la defensa durante 8s."
+    type: "buff"
+    mana_cost: 25
+    cooldown: 35
+    duration: 8
+    defense_bonus: 50
+
+  BattleRage:
+    display_name: "🔥 Furia de Batalla"
+    description: "Aumenta el daño un 30% pero recibe un 20% más durante 10s."
+    type: "buff"
+    mana_cost: 30
+    cooldown: 40
+    duration: 10
+    damage_bonus_percent: 30
+    damage_taken_percent: 20
+
+  MiningInstinct:
+    display_name: "⛏️ Instinto Minero"
+    description: "Incrementa velocidad de minado y resistencia en cuevas."
+    type: "utility"
+    mana_cost: 0
+    cooldown: 60
+    duration: 30

@@ -1,0 +1,145 @@
+# ============================
+# Sistema de Clases RPG
+# Nivel máximo permitido: 50
+# ============================
+
+settings:
+  max_level: 50
+  exp_formula: "level * 100"   # XP requerida por nivel (personalizable)
+
+classes:
+
+  Warrior:
+    display_name: "⚔️ Guerrero"
+    stats:
+      STR: 10
+      VIT: 12
+      AGI: 5
+      INT: 2
+      DEF: 8
+      MP: 50
+    abilities:
+      - PowerStrike
+      - WarCry
+      - Whirlwind
+      - ShieldWall
+
+  Mage:
+    display_name: "🔮 Mago"
+    stats:
+      STR: 2
+      VIT: 5
+      AGI: 4
+      INT: 12
+      DEF: 3
+      MP: 200
+    abilities:
+      - Fireball
+      - IceBolt
+      - ArcaneStorm
+      - Teleport
+
+  Archer:
+    display_name: "🏹 Arquero"
+    stats:
+      STR: 6
+      VIT: 6
+      AGI: 12
+      INT: 4
+      DEF: 5
+      MP: 80
+    abilities:
+      - RapidShot
+      - PoisonArrow
+      - ExplosiveArrow
+      - EagleEye
+
+  Assassin:
+    display_name: "🗡️ Asesino"
+    stats:
+      STR: 7
+      VIT: 5
+      AGI: 14
+      INT: 3
+      DEF: 4
+      MP: 70
+    abilities:
+      - Backstab
+      - SmokeBomb
+      - BladeDance
+      - ShadowStep
+
+  Shadowcaller:
+    display_name: "☠️ Llamador de Sombras"
+    stats:
+      STR: 3
+      VIT: 5
+      AGI: 6
+      INT: 12
+      DEF: 4
+      MP: 180
+    abilities:
+      - SummonUndead
+      - LifeDrain
+      - BonePrison
+      - DarkPact
+
+  Scout:
+    display_name: "🕵️ Explorador"
+    stats:
+      STR: 5
+      VIT: 6
+      AGI: 13
+      INT: 4
+      DEF: 5
+      MP: 60
+    abilities:
+      - SilentStep
+      - Camouflage
+      - MarkTarget
+      - EscapeGrapple
+
+  Healer:
+    display_name: "✨ Curandero"
+    stats:
+      STR: 3
+      VIT: 7
+      AGI: 5
+      INT: 10
+      DEF: 5
+      MP: 150
+    abilities:
+      - HealingLight
+      - GroupHeal
+      - Purify
+      - DivineBarrier
+
+  Druid:
+    display_name: "🌿 Guardián Natural"
+    stats:
+      STR: 4
+      VIT: 8
+      AGI: 6
+      INT: 11
+      DEF: 6
+      MP: 130
+    abilities:
+      - EntangleRoots
+      - SummonWolf
+      - NaturesBlessing
+      - StormCall
+
+  Dwarf:
+    display_name: "⛏️ Enano"
+    stats:
+      STR: 12
+      VIT: 10
+      AGI: 4
+      INT: 3
+      DEF: 12
+      MP: 60
+    abilities:
+      - Earthquake
+      - StoneSkin
+      - BattleRage
+      - MiningInstinct

@@ -19,7 +19,7 @@ modules:
   # This module is responsible for managing power, and it's associated side effects, like raids and over-claims.
   power-raids: true
   # This module will try to render the factions on a map, using the dynmap plugin
-  dynmap: true
+  dynmap: false
   # This module will add the /f wilderness and /wilderness command, allowing players to teleport to the wilderness (A place where no factions has yet claimed)
   wilderness: true
   # This module will add various home-related commands for setting and teleporting to a faction's home
@@ -27,16 +27,23 @@ modules:
   # This module will allow factions to enter their own chat, where only faction members can read the messages
   chat: true
   # This module will replace some commands with gui alternatives, for example, the /f invites or /f info command
-  gui: true
+  gui: false
   # Claim particles will show the border of claims
-  claim-particles: true
+  claim-particles: false
   # This module will allow factions to create alliances with other factions and form wars
   relations: true
-  # This module will enable or disable griefing in claims that ere protected
+  # This module will enable or disable griefing in claims that are protected
   protection: true
-  streamchat: true
-  bluemap: true
-
+  # This module will add a command to generate chat tokens for streaming chat into minecraft
+  streamchat: false
+  # This module will add bluemap support to the plugin, allowing factions to be displayed on a bluemap map
+  bluemap: false
+  # This module will add RPG/Roleplay related features to the factions plugin
+  rpgroleplay: false
+  # This module will add economy features to the plugin, allowing factions to have a balance and manage their money
+  economy: false
+  # This module will add health below name and faction name to the player name
+  display: true
 #
 # -------- { Base Module Settings } --------
 #

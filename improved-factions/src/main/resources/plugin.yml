@@ -115,4 +115,4 @@ permissions:
     default: op
   factions.streamchat.token:
     description: Permite generar tokens para el chat stream
-    default: op
+    default: true

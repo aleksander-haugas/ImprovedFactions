@@ -31,7 +31,7 @@
 - [ ] Value command, to see balance of faction
 - [ ] Spawners extension
 - [ ] Shop extension
-- [ ] Shield extension
+- [x] Shield extension
 - [ ] More data logging (Extension)
 - [ ] Faction chat
 - [ ] Raid command (Teleports you to a nearby faction you can raid)
